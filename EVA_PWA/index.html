@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#8b4968">
+<link rel="manifest" href="./manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>E.V.A. — Sua rotina em equilíbrio</title>
+<style>
+:root{--plum:#70405d;--rose:#f5e6ec;--cream:#fffaf7;--ink:#332832;--muted:#746773;--green:#258653;--yellow:#c58b08;--red:#c53e50}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:linear-gradient(135deg,#70405d,#a66b8a);color:white;padding:25px 18px 28px;border-radius:0 0 24px 24px}
+header h1{margin:0;font-size:2rem;letter-spacing:.04em}header p{margin:5px 0 0;opacity:.95}
+main{max-width:850px;margin:auto;padding:16px;display:grid;gap:16px}
+nav{display:flex;gap:8px;flex-wrap:wrap}nav button,.btn{border:0;border-radius:12px;padding:11px 14px;background:var(--rose);color:var(--plum);font-weight:700;cursor:pointer}nav button.active,.btn.primary{background:var(--plum);color:white}
+section,.panel{background:white;border:1px solid #eadfe5;border-radius:18px;padding:16px;box-shadow:0 3px 12px #55334a0b}
+h2{font-size:1.15rem;margin:0 0 12px}h3{margin:0 0 8px;font-size:1rem}.muted{color:var(--muted);font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.field{display:grid;gap:5px;margin-bottom:10px}label{font-size:.9rem;font-weight:650}
+input,select,textarea{width:100%;padding:11px;border:1px solid #d8cbd3;border-radius:10px;font:inherit;background:#fff}
+.task-list{display:grid;gap:9px}.task{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid #eee;border-left:6px solid var(--green);border-radius:12px}.task.yellow{border-left-color:var(--yellow)}.task.red{border-left-color:var(--red)}.task.done{opacity:.62}.task.done .task-title{text-decoration:line-through}.task-info{flex:1;min-width:0}.task-title{font-weight:750;overflow-wrap:anywhere}.task-meta{font-size:.86rem;color:var(--muted)}.task-actions{display:flex;gap:6px;flex-wrap:wrap}.small{padding:7px 9px;font-size:.85rem;border-radius:9px;border:0;background:#f2eaf0;color:var(--plum);cursor:pointer}
+.notice{background:#fff5db;padding:11px;border-radius:10px;font-size:.88rem}.voice-result{min-height:24px;margin-top:8px}
+footer{text-align:center;color:var(--muted);font-size:.82rem;padding:0 16px 22px}
+.hidden{display:none!important}
+@media(max-width:560px){.grid{grid-template-columns:1fr}header h1{font-size:1.7rem}main{padding:12px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>E.V.A.</h1>
+  <p>Empreendedorismo, Visão e Administração</p>
+  <p>Uma rotina mais organizada, no seu ritmo. 🌷</p>
+</header>
+<main>
+  <nav aria-label="Seções do aplicativo">
+    <button class="active" data-view="agenda">Agenda</button>
+    <button data-view="ciclo">Ciclo menstrual</button>
+    <button data-view="acessibilidade">Acessibilidade</button>
+  </nav>
+
+  <div id="agenda" class="view">
+    <section>
+      <h2>Adicionar tarefa</h2>
+      <form id="taskForm">
+        <div class="field"><label for="taskName">O que precisa fazer?</label><input id="taskName" required maxlength="120" placeholder="Ex.: Buscar meu filho"></div>
+        <div class="grid">
+          <div class="field"><label for="taskDate">Data</label><input id="taskDate" type="date" required></div>
+          <div class="field"><label for="taskTime">Horário</label><input id="taskTime" type="time" required></div>
+          <div class="field"><label for="taskPriority">Prioridade</label><select id="taskPriority"><option value="green">Verde — flexível</option><option value="yellow">Amarela — importante</option><option value="red">Vermelha — alta prioridade</option></select></div>
+          <div class="field"><label for="taskRepeat">Repetição</label><select id="taskRepeat"><option value="none">Não repetir</option><option value="daily">Todos os dias</option></select></div>
+        </div>
+        <div class="field"><label for="taskNotes">Observação (opcional)</label><input id="taskNotes" maxlength="200" placeholder="Detalhes úteis"></div>
+        <button class="btn primary" type="submit">＋ Salvar tarefa</button>
+      </form>
+    </section>
+    <section>
+      <h2>Minha rotina</h2>
+      <p class="muted">Vermelho: alta prioridade · Amarelo: importante · Verde: flexível. As tarefas ficam salvas neste navegador.</p>
+      <div id="taskList" class="task-list"></div>
+    </section>
+    <section>
+      <h2>Alarmes e notificações</h2>
+      <p class="muted">Ative as notificações neste dispositivo e faça um teste. Para receber alertas, mantenha o E.V.A. aberto; alarmes com o app fechado exigem uma implementação nativa ou um serviço de notificações push.</p>
+      <div class="task-actions">
+        <button class="btn primary" id="enableNotifications" type="button">🔔 Ativar notificações</button>
+        <button class="btn" id="testAlarm" type="button">▶ Testar alarme</button>
+      </div>
+      <p id="notificationStatus" class="muted" role="status" aria-live="polite">Notificações ainda não configuradas.</p>
+    </section>
+    <section>
+      <h2>Fale com a EVA</h2>
+      <p class="muted">Experimente dizer: “Adicionar tarefa reunião amanhã às 14 horas”. Neste protótipo, a voz ajuda a preencher o campo; confira data e horário antes de salvar.</p>
+      <button class="btn primary" id="voiceBtn" type="button">🎙️ Falar com a EVA</button>
+      <div id="voiceResult" class="voice-result" aria-live="polite"></div>
+      <div class="field"><label for="voiceText">Ou escreva o que você diria à EVA</label><input id="voiceText" placeholder="Ex.: Separar pedidos às 16 horas"></div>
+      <button class="btn" id="useVoiceText" type="button">Usar texto na tarefa</button>
+    </section>
+  </div>
+
+  <div id="ciclo" class="view hidden">
+    <section>
+      <h2>Meu ciclo menstrual</h2>
+      <p class="muted">O preenchimento é opcional. Use estes dados apenas para acompanhar seu ciclo; a previsão é aproximada e não serve como método contraceptivo nem diagnóstico.</p>
+      <form id="cycleForm">
+        <div class="grid">
+          <div class="field"><label for="periodStart">Primeiro dia da última menstruação</label><input id="periodStart" type="date"></div>
+          <div class="field"><label for="cycleLength">Duração média do ciclo (dias)</label><input id="cycleLength" type="number" min="15" max="60" value="28"></div>
+        </div>
+        <button class="btn primary" type="submit">Calcular previsão</button>
+      </form>
+      <div id="cycleResult" aria-live="polite" style="margin-top:12px"></div>
+      <p class="notice">Privacidade: nesta versão, as informações ficam armazenadas apenas no navegador deste dispositivo. Evite usar em um dispositivo compartilhado.</p>
+    </section>
+  </div>
+
+  <div id="acessibilidade" class="view hidden">
+    <section>
+      <h2>Acessibilidade</h2>
+      <p>O protótipo oferece botões com texto, navegação por teclado, contraste e leitura por voz quando o navegador suporta essa função.</p>
+      <div class="field"><label for="readText">Texto para a EVA ler em voz alta</label><textarea id="readText" rows="3">Olá! Eu sou a EVA. Vamos organizar sua rotina com calma.</textarea></div>
+      <button class="btn primary" id="speakBtn" type="button">🔊 Ler em voz alta</button>
+      <button class="btn" id="stopSpeakBtn" type="button">Parar leitura</button>
+      <p class="muted">Para pessoas surdas, uma versão futura pode incluir instruções visuais, legendas e alertas por vibração. Para pessoas com deficiência visual, é importante testar com leitores de tela reais.</p>
+    </section>
+  </div>
+</main>
+<footer>Protótipo inicial E.V.A. • Ainda não possui conta nem sincronização em nuvem. Os alarmes do navegador funcionam enquanto a página estiver ativa; o sistema operacional pode suspender páginas em segundo plano.</footer>
+<script>
+const $ = id => document.getElementById(id);
+const STORAGE_KEY = 'eva_tasks_v1';
+let tasks = [];
+try { tasks = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { tasks = []; }
+
+const today = new Date();
+const localDate = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+$('taskDate').value = localDate(today);
+
+function saveTasks(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks)); }
+function priorityLabel(p){ return ({green:'Verde · flexível',yellow:'Amarela · importante',red:'Vermelha · alta prioridade'})[p] || 'Verde'; }
+function renderTasks(){
+  const list = $('taskList'); list.replaceChildren();
+  const sorted = [...tasks].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  if(!sorted.length){ list.innerHTML='<p class="muted">Nenhuma tarefa cadastrada ainda. Adicione a primeira acima.</p>'; return; }
+  sorted.forEach(task=>{
+    const card=document.createElement('article'); card.className=`task ${task.priority} ${task.done?'done':''}`;
+    const check=document.createElement('input'); check.type='checkbox'; check.checked=!!task.done; check.setAttribute('aria-label',`Concluir ${task.name}`);
+    check.addEventListener('change',()=>{task.done=check.checked;saveTasks();renderTasks();});
+    const info=document.createElement('div'); info.className='task-info';
+    const title=document.createElement('div'); title.className='task-title'; title.textContent=task.name;
+    const meta=document.createElement('div'); meta.className='task-meta'; meta.textContent=`${task.date} às ${task.time} · ${priorityLabel(task.priority)}${task.repeat==='daily'?' · diária':''}${task.notes?' · '+task.notes:''}`;
+    info.append(title,meta);
+    const actions=document.createElement('div'); actions.className='task-actions';
+    const del=document.createElement('button'); del.className='small'; del.textContent='Excluir'; del.setAttribute('aria-label',`Excluir ${task.name}`);
+    del.addEventListener('click',()=>{tasks=tasks.filter(t=>t.id!==task.id);saveTasks();renderTasks();});
+    actions.append(del); card.append(check,info,actions); list.append(card);
+  });
+}
+$('taskForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const task={id:Date.now().toString(),name:$('taskName').value.trim(),date:$('taskDate').value,time:$('taskTime').value,priority:$('taskPriority').value,repeat:$('taskRepeat').value,notes:$('taskNotes').value.trim(),done:false,alerted:false};
+  if(!task.name||!task.date||!task.time)return;
+  tasks.push(task);saveTasks();renderTasks();e.target.reset();$('taskDate').value=localDate(new Date());
+});
+document.querySelectorAll('nav button').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b===btn));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('hidden',v.id!==btn.dataset.view));
+}));
+$('cycleForm').addEventListener('submit',e=>{
+  e.preventDefault(); const start=$('periodStart').value; const length=Number($('cycleLength').value);
+  if(!start||length<15||length>60){$('cycleResult').textContent='Informe a data e uma duração entre 15 e 60 dias.';return;}
+  const next=new Date(start+'T12:00:00'); next.setDate(next.getDate()+length);
+  $('cycleResult').textContent='Próxima menstruação estimada: '+next.toLocaleDateString('pt-BR')+'. Essa é apenas uma estimativa; o ciclo pode variar.';
+});
+function useVoiceText(text){
+  $('voiceText').value=text;
+  const timeMatch=text.match(/\b([01]?\d|2[0-3])(?:h|:)([0-5]\d)?\b/i);
+  if(timeMatch){$('taskTime').value=String(timeMatch[1]).padStart(2,'0')+':'+(timeMatch[2]||'00');}
+  const lower=text.toLowerCase();
+  if(lower.includes('amanhã')){const d=new Date();d.setDate(d.getDate()+1);$('taskDate').value=localDate(d);}
+  const name=text.replace(/^(eva[, ]*)?(adicionar tarefa|me lembre de|lembre-me de|lembrar de)\s*/i,'').replace(/\s*(hoje|amanhã)?\s*às?\s*\d{1,2}(?:h|:\d{2})?.*$/i,'').trim();
+  if(name)$('taskName').value=name;
+}
+$('useVoiceText').addEventListener('click',()=>useVoiceText($('voiceText').value));
+$('voiceBtn').addEventListener('click',()=>{
+  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SpeechRecognition){$('voiceResult').textContent='Seu navegador não oferece reconhecimento de voz. Use o campo de texto abaixo ou tente um navegador compatível.';return;}
+  const rec=new SpeechRecognition();rec.lang='pt-BR';rec.interimResults=false;rec.maxAlternatives=1;
+  $('voiceResult').textContent='Estou ouvindo…';
+  rec.onresult=e=>{const said=e.results[0][0].transcript;$('voiceResult').textContent='Entendi: “'+said+'”. Confira os campos e salve.';useVoiceText(said);};
+  rec.onerror=()=>{$('voiceResult').textContent='Não consegui reconhecer a fala. Confira a permissão do microfone e tente novamente.';};
+  rec.start();
+});
+$('speakBtn').addEventListener('click',()=>{
+  if(!('speechSynthesis' in window)){$('readText').insertAdjacentHTML('afterend','<p class="muted">Leitura por voz não é compatível com este navegador.</p>');return;}
+  speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance($('readText').value);utterance.lang='pt-BR';speechSynthesis.speak(utterance);
+});
+$('stopSpeakBtn').addEventListener('click',()=>{if('speechSynthesis' in window)speechSynthesis.cancel();});
+
+// Alertas funcionam enquanto esta página permanece aberta. Navegadores podem suspender páginas em segundo plano.
+function setNotificationStatus(message){
+  const el = $('notificationStatus');
+  if(el) el.textContent = message;
+}
+$('enableNotifications').addEventListener('click', async ()=>{
+  if(!('Notification' in window)){
+    setNotificationStatus('Este navegador não oferece notificações do sistema. Você ainda pode usar os avisos enquanto o E.V.A. estiver aberto.');
+    return;
+  }
+  if(!window.isSecureContext && location.hostname !== 'localhost'){
+    setNotificationStatus('Notificações exigem HTTPS ou localhost. Abra o projeto por um servidor local ou publique-o em HTTPS.');
+    return;
+  }
+  try{
+    const permission = await Notification.requestPermission();
+    setNotificationStatus(permission === 'granted'
+      ? 'Notificações ativadas neste navegador.'
+      : 'Permissão não concedida. Altere a permissão do site nas configurações do navegador.');
+  }catch{
+    setNotificationStatus('Não foi possível solicitar permissão neste navegador.');
+  }
+});
+function fireAlarm(task){
+  const message = `E.V.A.: está na hora de ${task.name}.`;
+  if('Notification' in window && Notification.permission === 'granted'){
+    try { new Notification('Hora da sua tarefa', { body: message, tag: 'eva-' + task.id }); } catch {}
+  }
+  if('speechSynthesis' in window){
+    try{
+      speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(message);
+      utterance.lang = 'pt-BR';
+      speechSynthesis.speak(utterance);
+    }catch{}
+  }
+  // Fallback visual/sonoro when system notifications are unavailable.
+  setNotificationStatus(message);
+}
+$('testAlarm').addEventListener('click', ()=>{
+  fireAlarm({id:'teste', name:'este é um teste de alarme'});
+});
+function checkAlarms(){
+  const now = new Date();
+  const todayString = localDate(now);
+  const currentTime = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  let changed = false;
+  const due = tasks.filter(t => !t.done && !t.alerted && t.date === todayString && t.time <= currentTime);
+  for(const task of due){
+    task.alerted = true;
+    changed = true;
+    fireAlarm(task);
+    if(task.repeat === 'daily'){
+      const next = new Date(task.date + 'T12:00:00');
+      next.setDate(next.getDate() + 1);
+      tasks.push({...task, id: Date.now().toString() + Math.random().toString(16).slice(2), date: localDate(next), alerted:false, done:false});
+    }
+  }
+  if(changed){ saveTasks(); renderTasks(); }
+}
+if('serviceWorker' in navigator && location.protocol !== 'file:'){
+  window.addEventListener('load', ()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+setInterval(checkAlarms, 10000);
+renderTasks();
+</script>
+</body>
+</html>
