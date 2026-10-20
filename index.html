@@ -9,21 +9,31 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>E.V.A. — Sua rotina em equilíbrio</title>
 <style>
-:root{--plum:#70405d;--rose:#f5e6ec;--cream:#fffaf7;--ink:#332832;--muted:#746773;--green:#258653;--yellow:#c58b08;--red:#c53e50}
-*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
-header{background:linear-gradient(135deg,#70405d,#a66b8a);color:white;padding:25px 18px 28px;border-radius:0 0 24px 24px}
-header h1{margin:0;font-size:2rem;letter-spacing:.04em}header p{margin:5px 0 0;opacity:.95}
-main{max-width:850px;margin:auto;padding:16px;display:grid;gap:16px}
-nav{display:flex;gap:8px;flex-wrap:wrap}nav button,.btn{border:0;border-radius:12px;padding:11px 14px;background:var(--rose);color:var(--plum);font-weight:700;cursor:pointer}nav button.active,.btn.primary{background:var(--plum);color:white}
-section,.panel{background:white;border:1px solid #eadfe5;border-radius:18px;padding:16px;box-shadow:0 3px 12px #55334a0b}
-h2{font-size:1.15rem;margin:0 0 12px}h3{margin:0 0 8px;font-size:1rem}.muted{color:var(--muted);font-size:.9rem}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.field{display:grid;gap:5px;margin-bottom:10px}label{font-size:.9rem;font-weight:650}
-input,select,textarea{width:100%;padding:11px;border:1px solid #d8cbd3;border-radius:10px;font:inherit;background:#fff}
-.task-list{display:grid;gap:9px}.task{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid #eee;border-left:6px solid var(--green);border-radius:12px}.task.yellow{border-left-color:var(--yellow)}.task.red{border-left-color:var(--red)}.task.done{opacity:.62}.task.done .task-title{text-decoration:line-through}.task-info{flex:1;min-width:0}.task-title{font-weight:750;overflow-wrap:anywhere}.task-meta{font-size:.86rem;color:var(--muted)}.task-actions{display:flex;gap:6px;flex-wrap:wrap}.small{padding:7px 9px;font-size:.85rem;border-radius:9px;border:0;background:#f2eaf0;color:var(--plum);cursor:pointer}
-.notice{background:#fff5db;padding:11px;border-radius:10px;font-size:.88rem}.voice-result{min-height:24px;margin-top:8px}
-footer{text-align:center;color:var(--muted);font-size:.82rem;padding:0 16px 22px}
-.hidden{display:none!important}
-@media(max-width:560px){.grid{grid-template-columns:1fr}header h1{font-size:1.7rem}main{padding:12px}}
+
+:root{--plum:#653650;--plum-deep:#432238;--rose:#f4e3eb;--rose-strong:#dfb7ca;--cream:#fbf6f8;--ink:#302631;--muted:#796b78;--line:#eadde5;--green:#267b53;--yellow:#ad7908;--red:#bd4054;--shadow:0 12px 34px rgba(75,39,61,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}button{transition:transform .16s ease,box-shadow .16s ease}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #c78aaa;outline-offset:2px}
+header{position:relative;overflow:hidden;color:#fff;padding:32px max(22px,calc((100vw - 1100px)/2)) 34px;background:radial-gradient(circle at 90% 10%,#ffffff26,transparent 26%),linear-gradient(125deg,var(--plum-deep),#75445f 58%,#a66d88)}
+header:after{content:"✿";position:absolute;right:max(24px,calc((100vw - 1100px)/2));top:3px;font-size:108px;line-height:1;color:#ffffff1a;pointer-events:none}
+header h1{position:relative;z-index:1;margin:0;font-size:2.25rem;letter-spacing:.09em;font-weight:800}header p{position:relative;z-index:1;margin:4px 0 0;color:#fff7fb}header p:nth-of-type(1){font-size:.92rem}header p:nth-of-type(2){margin-top:12px;font-size:1.02rem}
+main{width:min(1100px,100%);margin:0 auto;padding:22px;display:grid;grid-template-columns:205px minmax(0,1fr);align-items:start;gap:22px}
+nav{grid-column:1;grid-row:1;position:sticky;top:18px;display:grid;gap:8px;padding:12px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+nav button,.btn{border:0;border-radius:12px;padding:11px 14px;background:var(--rose);color:var(--plum);font-weight:750;cursor:pointer;text-align:left}
+nav button{display:flex;align-items:center;gap:10px;background:transparent;padding:13px 12px}nav button[data-view="agenda"]:before{content:"▦"}nav button[data-view="ciclo"]:before{content:"♡"}nav button[data-view="acessibilidade"]:before{content:"◉"}nav button:hover{background:#faf0f5}nav button.active,.btn.primary{background:var(--plum);color:white;box-shadow:0 5px 13px #65365026}
+.btn{text-align:center;display:inline-flex;justify-content:center;align-items:center;gap:7px}.btn:hover,nav button:hover{transform:translateY(-1px)}
+.view{grid-column:2;min-width:0;display:grid;gap:16px}
+section,.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow)}.welcome-panel{background:linear-gradient(120deg,#fff,#fff5f8);border-color:#ead5e0}
+h2{font-size:1.16rem;letter-spacing:-.02em;margin:0 0 14px;display:flex;align-items:center;gap:9px}h2:before{content:"";display:block;width:5px;height:20px;border-radius:5px;background:var(--rose-strong)}h3{margin:0 0 8px;font-size:1rem}.muted{color:var(--muted);font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:grid;gap:6px;margin-bottom:13px}label{font-size:.9rem;font-weight:700;color:#51434f}
+input,select,textarea{width:100%;padding:12px 13px;border:1px solid #ded0d9;border-radius:12px;font:inherit;background:#fff;color:var(--ink)}input::placeholder,textarea::placeholder{color:#a0929e}input:focus,select:focus,textarea:focus{border-color:#a66d88;box-shadow:0 0 0 3px #f4e3eb;outline:none}
+.task-list{display:grid;gap:10px}.task{display:flex;align-items:flex-start;gap:12px;padding:15px;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:15px;background:#fff}.task.yellow{border-left-color:var(--yellow);background:linear-gradient(90deg,#fffaf0,#fff 30%)}.task.red{border-left-color:var(--red);background:linear-gradient(90deg,#fff5f6,#fff 30%)}.task.done{opacity:.58}.task.done .task-title{text-decoration:line-through}.task>input[type=checkbox]{width:19px;height:19px;margin-top:3px;accent-color:var(--plum);flex:0 0 auto}.task-info{flex:1;min-width:0}.task-title{font-weight:800;overflow-wrap:anywhere}.task-meta{font-size:.85rem;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}.task-actions{display:flex;gap:7px;flex-wrap:wrap}.small{padding:8px 10px;font-size:.82rem;font-weight:700;border-radius:10px;border:1px solid var(--line);background:#f8eff4;color:var(--plum);cursor:pointer}.small:hover{background:var(--rose)}
+.notice{background:#fff6dc;border:1px solid #f2e1a9;padding:13px 14px;border-radius:13px;font-size:.88rem;color:#725719}.voice-result{min-height:24px;margin-top:10px;color:var(--plum);font-weight:650}#notificationStatus{padding:10px 12px;border-radius:12px;background:#f8f1f5}#cycleResult{font-weight:750;color:var(--plum)}
+footer{max-width:1000px;margin:0 auto;text-align:center;color:var(--muted);font-size:.82rem;padding:0 22px 28px}.hidden{display:none!important}
+@media(max-width:720px){header{padding:25px 18px 28px}header h1{font-size:1.9rem}header:after{right:12px;font-size:75px;top:8px}main{grid-template-columns:1fr;padding:14px;gap:14px}nav{grid-column:1;grid-row:auto;position:static;display:flex;overflow-x:auto;gap:5px;padding:7px;border-radius:15px}nav button{white-space:nowrap;flex:0 0 auto;padding:11px 12px;font-size:.87rem}.view{grid-column:1}section,.panel{padding:17px;border-radius:17px}}
+@media(max-width:480px){.grid{grid-template-columns:1fr;gap:0}header h1{font-size:1.7rem}main{padding:10px}.task{padding:12px;gap:9px;flex-wrap:wrap}.task-info{flex-basis:calc(100% - 36px)}.task-actions{width:100%;padding-left:29px}.btn{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -40,6 +50,11 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:0 16px 22px
   </nav>
 
   <div id="agenda" class="view">
+    <section class="welcome-panel">
+      <p class="muted" style="margin:0 0 5px;font-weight:750;letter-spacing:.08em;text-transform:uppercase">Seu espaço de organização</p>
+      <h2 style="font-size:1.45rem;margin-bottom:7px">Vamos cuidar do seu dia? 🌷</h2>
+      <p class="muted" style="margin:0">Organize o que é importante, uma tarefa de cada vez. Suas atividades ficam salvas neste navegador.</p>
+    </section>
     <section>
       <h2>Adicionar tarefa</h2>
       <form id="taskForm">
