@@ -30,6 +30,15 @@ input,select,textarea{width:100%;padding:12px 13px;border:1px solid #ded0d9;bord
 .task-list{display:grid;gap:10px}.task{display:flex;align-items:flex-start;gap:12px;padding:15px;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:15px;background:#fff}.task.yellow{border-left-color:var(--yellow);background:linear-gradient(90deg,#fffaf0,#fff 30%)}.task.red{border-left-color:var(--red);background:linear-gradient(90deg,#fff5f6,#fff 30%)}.task.done{opacity:.58}.task.done .task-title{text-decoration:line-through}.task>input[type=checkbox]{width:19px;height:19px;margin-top:3px;accent-color:var(--plum);flex:0 0 auto}.task-info{flex:1;min-width:0}.task-title{font-weight:800;overflow-wrap:anywhere}.task-meta{font-size:.85rem;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}.task-actions{display:flex;gap:7px;flex-wrap:wrap}.small{padding:8px 10px;font-size:.82rem;font-weight:700;border-radius:10px;border:1px solid var(--line);background:#f8eff4;color:var(--plum);cursor:pointer}.small:hover{background:var(--rose)}
 .notice{background:#fff6dc;border:1px solid #f2e1a9;padding:13px 14px;border-radius:13px;font-size:.88rem;color:#725719}.voice-result{min-height:24px;margin-top:10px;color:var(--plum);font-weight:650}#notificationStatus{padding:10px 12px;border-radius:12px;background:#f8f1f5}#cycleResult{font-weight:750;color:var(--plum)}
 footer{max-width:1000px;margin:0 auto;text-align:center;color:var(--muted);font-size:.82rem;padding:0 22px 28px}.hidden{display:none!important}
+
+.auth-wrap{width:min(680px,calc(100% - 28px));margin:24px auto 40px}
+.auth-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow)}
+.auth-card h2{margin-bottom:8px}.auth-card p{color:var(--muted)}
+.auth-tabs{display:flex;gap:8px;margin:14px 0 20px}.auth-tabs button{flex:1;text-align:center;justify-content:center}
+.auth-message{padding:11px 13px;border-radius:12px;background:#f8f1f5;color:var(--plum);margin-top:12px;overflow-wrap:anywhere}
+.auth-message.error{background:#fff0f1;color:#9b2638}
+.user-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.user-email{font-size:.9rem;color:var(--muted);overflow-wrap:anywhere}
 @media(max-width:720px){header{padding:25px 18px 28px}header h1{font-size:1.9rem}header:after{right:12px;font-size:75px;top:8px}main{grid-template-columns:1fr;padding:14px;gap:14px}nav{grid-column:1;grid-row:auto;position:static;display:flex;overflow-x:auto;gap:5px;padding:7px;border-radius:15px}nav button{white-space:nowrap;flex:0 0 auto;padding:11px 12px;font-size:.87rem}.view{grid-column:1}section,.panel{padding:17px;border-radius:17px}}
 @media(max-width:480px){.grid{grid-template-columns:1fr;gap:0}header h1{font-size:1.7rem}main{padding:10px}.task{padding:12px;gap:9px;flex-wrap:wrap}.task-info{flex-basis:calc(100% - 36px)}.task-actions{width:100%;padding-left:29px}.btn{width:100%}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
@@ -42,6 +51,22 @@ footer{max-width:1000px;margin:0 auto;text-align:center;color:var(--muted);font-
   <p>Empreendedorismo, Visão e Administração</p>
   <p>Uma rotina mais organizada, no seu ritmo. 🌷</p>
 </header>
+<section id="authGate" class="auth-wrap hidden" aria-labelledby="authTitle">
+  <div class="auth-card">
+    <p class="muted" style="margin:0 0 5px;font-weight:750;letter-spacing:.08em;text-transform:uppercase">Seu espaço, sua rotina</p>
+    <h2 id="authTitle">Entre no E.V.A. 🌷</h2>
+    <p>Entre na sua conta para manter suas tarefas sincronizadas entre dispositivos.</p>
+    <div class="auth-tabs"><button class="btn primary" id="showLogin" type="button">Entrar</button><button class="btn" id="showRegister" type="button">Criar conta</button></div>
+    <form id="authForm">
+      <div class="field"><label for="authEmail">E-mail</label><input id="authEmail" type="email" autocomplete="email" required maxlength="254" placeholder="voce@exemplo.com"></div>
+      <div class="field"><label for="authPassword">Senha</label><input id="authPassword" type="password" autocomplete="current-password" required minlength="6" maxlength="128" placeholder="Pelo menos 6 caracteres"></div>
+      <button class="btn primary" id="authSubmit" type="submit">Entrar</button>
+    </form>
+    <div id="authMessage" class="auth-message hidden" role="status" aria-live="polite"></div>
+    <p class="muted" style="font-size:.82rem;margin-bottom:0">Use uma senha exclusiva para o E.V.A. Nunca compartilhe sua senha.</p>
+  </div>
+</section>
+<div id="appShell" class="hidden">
 <main>
   <nav aria-label="Seções do aplicativo">
     <button class="active" data-view="agenda">Agenda</button>
@@ -51,6 +76,8 @@ footer{max-width:1000px;margin:0 auto;text-align:center;color:var(--muted);font-
 
   <div id="agenda" class="view">
     <section class="welcome-panel">
+      <div class="user-bar"><div><p class="muted" id="syncStatus" style="margin:0 0 6px">Conectando sua conta…</p><div class="user-email" id="userEmail"></div></div><button class="btn" id="logoutBtn" type="button">Sair da conta</button></div>
+      <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
       <p class="muted" style="margin:0 0 5px;font-weight:750;letter-spacing:.08em;text-transform:uppercase">Seu espaço de organização</p>
       <h2 style="font-size:1.45rem;margin-bottom:7px">Vamos cuidar do seu dia? 🌷</h2>
       <p class="muted" style="margin:0">Organize o que é importante, uma tarefa de cada vez. Suas atividades ficam salvas neste navegador.</p>
@@ -120,18 +147,71 @@ footer{max-width:1000px;margin:0 auto;text-align:center;color:var(--muted);font-
     </section>
   </div>
 </main>
-<footer>Protótipo inicial E.V.A. • Ainda não possui conta nem sincronização em nuvem. Os alarmes do navegador funcionam enquanto a página estiver ativa; o sistema operacional pode suspender páginas em segundo plano.</footer>
-<script>
+</div>
+<footer>E.V.A. • As tarefas da conta são sincronizadas com o Firebase. Os dados do ciclo menstrual não são enviados à nuvem nesta versão. Os alarmes do navegador funcionam enquanto a página estiver ativa.</footer>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy, writeBatch } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
+
 const $ = id => document.getElementById(id);
+// Firebase Console > Configurações do projeto > Geral > Seus apps > App da Web
+const firebaseConfig = {
+  apiKey: "AIzaSyB7WUcm0rdwWZGKGkJLq5U3iufeS2vXgNo",
+  authDomain: "eva-app-2026-br.firebaseapp.com",
+  projectId: "eva-app-2026-br",
+  storageBucket: "eva-app-2026-br.firebasestorage.app",
+  messagingSenderId: "157424520203",
+  appId: "1:157424520203:web:fb72d32bb8cde0593a4b0e"
+};
+const configReady = firebaseConfig.apiKey !== "COLOQUE_SUA_API_KEY" && firebaseConfig.projectId !== "COLOQUE_SEU_PROJECT_ID";
+let app, auth, db;
+if (configReady) { app = initializeApp(firebaseConfig); auth = getAuth(app); db = getFirestore(app); }
 const STORAGE_KEY = 'eva_tasks_v1';
-let tasks = [];
-try { tasks = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { tasks = []; }
+let tasks = [], currentUser = null, stopTasksListener = null, authMode = 'login';
+const localDate = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+
+function showAuthMessage(message, error=false) {
+  const el=$('authMessage'); el.textContent=message; el.classList.remove('hidden','error'); if(error) el.classList.add('error');
+}
+function setSyncStatus(message){ $('syncStatus').textContent=message; }
+function updateAuthMode(mode) {
+  authMode=mode;
+  $('authTitle').textContent=mode==='login'?'Entre no E.V.A. 🌷':'Crie sua conta no E.V.A. 🌷';
+  $('authSubmit').textContent=mode==='login'?'Entrar':'Criar conta';
+  $('showLogin').classList.toggle('primary',mode==='login'); $('showRegister').classList.toggle('primary',mode==='register');
+  $('authPassword').autocomplete=mode==='login'?'current-password':'new-password'; $('authMessage').classList.add('hidden');
+}
+$('showLogin').addEventListener('click',()=>updateAuthMode('login'));
+$('showRegister').addEventListener('click',()=>updateAuthMode('register'));
+$('authForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(!configReady){showAuthMessage('Falta preencher a configuração do app Web do Firebase no index.html. Veja LEIA-ME.txt.',true);return;}
+  const email=$('authEmail').value.trim(), password=$('authPassword').value;
+  $('authSubmit').disabled=true;
+  try {
+    if(authMode==='register') await createUserWithEmailAndPassword(auth,email,password);
+    else await signInWithEmailAndPassword(auth,email,password);
+  } catch(error) {
+    const msgs={'auth/email-already-in-use':'Este e-mail já possui conta. Tente entrar.','auth/invalid-email':'Digite um e-mail válido.','auth/weak-password':'A senha precisa ter pelo menos 6 caracteres.','auth/invalid-credential':'E-mail ou senha incorretos.','auth/too-many-requests':'Muitas tentativas. Aguarde e tente novamente.','auth/network-request-failed':'Falha de conexão. Confira sua internet.'};
+    showAuthMessage(msgs[error.code]||`Não foi possível concluir (${error.code||'erro'}).`,true);
+  } finally {$('authSubmit').disabled=false;}
+});
+$('logoutBtn').addEventListener('click',async()=>{if(stopTasksListener){stopTasksListener();stopTasksListener=null;} if(auth) await signOut(auth);});
+
+// Ciclo menstrual permanece apenas neste navegador, sem envio ao Firestore.
+const CYCLE_KEY='eva_cycle_private_v1';
+try {const c=JSON.parse(localStorage.getItem(CYCLE_KEY)||'null'); if(c){$('periodStart').value=c.start||'';$('cycleLength').value=c.length||28;}} catch {}
 
 const today = new Date();
-const localDate = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 $('taskDate').value = localDate(today);
 
-function saveTasks(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks)); }
+function saveTasks(){
+  if(!currentUser||!db) return;
+  const batch=writeBatch(db);
+  for(const task of tasks){const {id,...data}=task;batch.set(doc(db,'users',currentUser.uid,'tasks',String(id)),data,{merge:true});}
+  batch.commit().then(()=>setSyncStatus('✓ Sincronizado com segurança')).catch(err=>{setSyncStatus('Erro ao sincronizar. Confira as regras do Firestore.');console.error(err);});
+}
 function priorityLabel(p){ return ({green:'Verde · flexível',yellow:'Amarela · importante',red:'Vermelha · alta prioridade'})[p] || 'Verde'; }
 function renderTasks(){
   const list = $('taskList'); list.replaceChildren();
@@ -147,7 +227,7 @@ function renderTasks(){
     info.append(title,meta);
     const actions=document.createElement('div'); actions.className='task-actions';
     const del=document.createElement('button'); del.className='small'; del.textContent='Excluir'; del.setAttribute('aria-label',`Excluir ${task.name}`);
-    del.addEventListener('click',()=>{tasks=tasks.filter(t=>t.id!==task.id);saveTasks();renderTasks();});
+    del.addEventListener('click',async()=>{tasks=tasks.filter(t=>t.id!==task.id);renderTasks();if(currentUser&&db){try{await deleteDoc(doc(db,'users',currentUser.uid,'tasks',String(task.id)));setSyncStatus('✓ Sincronizado com segurança');}catch(err){setSyncStatus('Falha ao excluir na nuvem. Confira as regras.');console.error(err);}}});
     actions.append(del); card.append(check,info,actions); list.append(card);
   });
 }
@@ -155,7 +235,8 @@ $('taskForm').addEventListener('submit',e=>{
   e.preventDefault();
   const task={id:Date.now().toString(),name:$('taskName').value.trim(),date:$('taskDate').value,time:$('taskTime').value,priority:$('taskPriority').value,repeat:$('taskRepeat').value,notes:$('taskNotes').value.trim(),done:false,alerted:false};
   if(!task.name||!task.date||!task.time)return;
-  tasks.push(task);saveTasks();renderTasks();e.target.reset();$('taskDate').value=localDate(new Date());
+  tasks.push(task);renderTasks();e.target.reset();$('taskDate').value=localDate(new Date());
+  if(currentUser&&db){const {id,...data}=task;setDoc(doc(db,'users',currentUser.uid,'tasks',String(id)),data).then(()=>setSyncStatus('✓ Tarefa salva e sincronizada')).catch(err=>{setSyncStatus('Falha ao salvar. Confira as regras do Firestore.');console.error(err);});}
 });
 document.querySelectorAll('nav button').forEach(btn=>btn.addEventListener('click',()=>{
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b===btn));
@@ -165,7 +246,7 @@ $('cycleForm').addEventListener('submit',e=>{
   e.preventDefault(); const start=$('periodStart').value; const length=Number($('cycleLength').value);
   if(!start||length<15||length>60){$('cycleResult').textContent='Informe a data e uma duração entre 15 e 60 dias.';return;}
   const next=new Date(start+'T12:00:00'); next.setDate(next.getDate()+length);
-  $('cycleResult').textContent='Próxima menstruação estimada: '+next.toLocaleDateString('pt-BR')+'. Essa é apenas uma estimativa; o ciclo pode variar.';
+  $('cycleResult').textContent='Próxima menstruação estimada: '+next.toLocaleDateString('pt-BR')+'. Essa é apenas uma estimativa; o ciclo pode variar.'; localStorage.setItem(CYCLE_KEY,JSON.stringify({start,length}));
 });
 function useVoiceText(text){
   $('voiceText').value=text;
@@ -256,6 +337,23 @@ if('serviceWorker' in navigator && location.protocol !== 'file:'){
   window.addEventListener('load', ()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 }
 setInterval(checkAlarms, 10000);
+function beginUserSession(user){
+  currentUser=user; $('authGate').classList.add('hidden'); $('appShell').classList.remove('hidden');
+  $('userEmail').textContent=user.email||'Conta conectada'; setSyncStatus('Carregando suas tarefas…'); tasks=[]; renderTasks();
+  if(stopTasksListener) stopTasksListener();
+  stopTasksListener=onSnapshot(query(collection(db,'users',user.uid,'tasks'),orderBy('date')),snapshot=>{
+    tasks=snapshot.docs.map(d=>({id:d.id,...d.data()})); setSyncStatus('✓ Sincronizado com segurança'); renderTasks();
+  },err=>{setSyncStatus('Não foi possível carregar tarefas. Confira as regras do Firestore.');console.error(err);});
+}
+if(!configReady){
+  $('authGate').classList.remove('hidden'); $('appShell').classList.add('hidden');
+  showAuthMessage('Falta preencher a configuração do app Web do Firebase. Siga o LEIA-ME incluído no pacote.',true);
+}else{
+  onAuthStateChanged(auth,user=>{
+    if(user) beginUserSession(user);
+    else {if(stopTasksListener){stopTasksListener();stopTasksListener=null;}currentUser=null;tasks=[];renderTasks();$('appShell').classList.add('hidden');$('authGate').classList.remove('hidden');updateAuthMode('login');}
+  });
+}
 renderTasks();
 </script>
 </body>

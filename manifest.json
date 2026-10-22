@@ -1,12 +1,9 @@
 {
-  "name": "E.V.A. — Empreendedorismo, Visão e Administração",
+  "name": "E.V.A. — Sua rotina em equilíbrio",
   "short_name": "E.V.A.",
-  "description": "Organize tarefas, prioridades e lembretes no seu ritmo.",
-  "start_url": "./index.html",
-  "scope": "./",
+  "start_url": "./",
   "display": "standalone",
-  "background_color": "#fffaf7",
+  "background_color": "#fbf6f8",
   "theme_color": "#8b4968",
-  "lang": "pt-BR",
   "icons": []
 }
