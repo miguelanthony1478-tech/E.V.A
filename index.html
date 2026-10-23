@@ -3,358 +3,81 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#8b4968">
+<meta name="theme-color" content="#653650">
 <link rel="manifest" href="./manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>E.V.A. — Sua rotina em equilíbrio</title>
 <style>
-
-:root{--plum:#653650;--plum-deep:#432238;--rose:#f4e3eb;--rose-strong:#dfb7ca;--cream:#fbf6f8;--ink:#302631;--muted:#796b78;--line:#eadde5;--green:#267b53;--yellow:#ad7908;--red:#bd4054;--shadow:0 12px 34px rgba(75,39,61,.08)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
-button,input,select,textarea{font:inherit}button{transition:transform .16s ease,box-shadow .16s ease}
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #c78aaa;outline-offset:2px}
-header{position:relative;overflow:hidden;color:#fff;padding:32px max(22px,calc((100vw - 1100px)/2)) 34px;background:radial-gradient(circle at 90% 10%,#ffffff26,transparent 26%),linear-gradient(125deg,var(--plum-deep),#75445f 58%,#a66d88)}
-header:after{content:"✿";position:absolute;right:max(24px,calc((100vw - 1100px)/2));top:3px;font-size:108px;line-height:1;color:#ffffff1a;pointer-events:none}
-header h1{position:relative;z-index:1;margin:0;font-size:2.25rem;letter-spacing:.09em;font-weight:800}header p{position:relative;z-index:1;margin:4px 0 0;color:#fff7fb}header p:nth-of-type(1){font-size:.92rem}header p:nth-of-type(2){margin-top:12px;font-size:1.02rem}
-main{width:min(1100px,100%);margin:0 auto;padding:22px;display:grid;grid-template-columns:205px minmax(0,1fr);align-items:start;gap:22px}
-nav{grid-column:1;grid-row:1;position:sticky;top:18px;display:grid;gap:8px;padding:12px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
-nav button,.btn{border:0;border-radius:12px;padding:11px 14px;background:var(--rose);color:var(--plum);font-weight:750;cursor:pointer;text-align:left}
-nav button{display:flex;align-items:center;gap:10px;background:transparent;padding:13px 12px}nav button[data-view="agenda"]:before{content:"▦"}nav button[data-view="ciclo"]:before{content:"♡"}nav button[data-view="acessibilidade"]:before{content:"◉"}nav button:hover{background:#faf0f5}nav button.active,.btn.primary{background:var(--plum);color:white;box-shadow:0 5px 13px #65365026}
-.btn{text-align:center;display:inline-flex;justify-content:center;align-items:center;gap:7px}.btn:hover,nav button:hover{transform:translateY(-1px)}
-.view{grid-column:2;min-width:0;display:grid;gap:16px}
-section,.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow)}.welcome-panel{background:linear-gradient(120deg,#fff,#fff5f8);border-color:#ead5e0}
-h2{font-size:1.16rem;letter-spacing:-.02em;margin:0 0 14px;display:flex;align-items:center;gap:9px}h2:before{content:"";display:block;width:5px;height:20px;border-radius:5px;background:var(--rose-strong)}h3{margin:0 0 8px;font-size:1rem}.muted{color:var(--muted);font-size:.9rem}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:grid;gap:6px;margin-bottom:13px}label{font-size:.9rem;font-weight:700;color:#51434f}
-input,select,textarea{width:100%;padding:12px 13px;border:1px solid #ded0d9;border-radius:12px;font:inherit;background:#fff;color:var(--ink)}input::placeholder,textarea::placeholder{color:#a0929e}input:focus,select:focus,textarea:focus{border-color:#a66d88;box-shadow:0 0 0 3px #f4e3eb;outline:none}
-.task-list{display:grid;gap:10px}.task{display:flex;align-items:flex-start;gap:12px;padding:15px;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:15px;background:#fff}.task.yellow{border-left-color:var(--yellow);background:linear-gradient(90deg,#fffaf0,#fff 30%)}.task.red{border-left-color:var(--red);background:linear-gradient(90deg,#fff5f6,#fff 30%)}.task.done{opacity:.58}.task.done .task-title{text-decoration:line-through}.task>input[type=checkbox]{width:19px;height:19px;margin-top:3px;accent-color:var(--plum);flex:0 0 auto}.task-info{flex:1;min-width:0}.task-title{font-weight:800;overflow-wrap:anywhere}.task-meta{font-size:.85rem;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}.task-actions{display:flex;gap:7px;flex-wrap:wrap}.small{padding:8px 10px;font-size:.82rem;font-weight:700;border-radius:10px;border:1px solid var(--line);background:#f8eff4;color:var(--plum);cursor:pointer}.small:hover{background:var(--rose)}
-.notice{background:#fff6dc;border:1px solid #f2e1a9;padding:13px 14px;border-radius:13px;font-size:.88rem;color:#725719}.voice-result{min-height:24px;margin-top:10px;color:var(--plum);font-weight:650}#notificationStatus{padding:10px 12px;border-radius:12px;background:#f8f1f5}#cycleResult{font-weight:750;color:var(--plum)}
-footer{max-width:1000px;margin:0 auto;text-align:center;color:var(--muted);font-size:.82rem;padding:0 22px 28px}.hidden{display:none!important}
-
-.auth-wrap{width:min(680px,calc(100% - 28px));margin:24px auto 40px}
-.auth-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow)}
-.auth-card h2{margin-bottom:8px}.auth-card p{color:var(--muted)}
-.auth-tabs{display:flex;gap:8px;margin:14px 0 20px}.auth-tabs button{flex:1;text-align:center;justify-content:center}
-.auth-message{padding:11px 13px;border-radius:12px;background:#f8f1f5;color:var(--plum);margin-top:12px;overflow-wrap:anywhere}
-.auth-message.error{background:#fff0f1;color:#9b2638}
-.user-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.user-email{font-size:.9rem;color:var(--muted);overflow-wrap:anywhere}
-@media(max-width:720px){header{padding:25px 18px 28px}header h1{font-size:1.9rem}header:after{right:12px;font-size:75px;top:8px}main{grid-template-columns:1fr;padding:14px;gap:14px}nav{grid-column:1;grid-row:auto;position:static;display:flex;overflow-x:auto;gap:5px;padding:7px;border-radius:15px}nav button{white-space:nowrap;flex:0 0 auto;padding:11px 12px;font-size:.87rem}.view{grid-column:1}section,.panel{padding:17px;border-radius:17px}}
-@media(max-width:480px){.grid{grid-template-columns:1fr;gap:0}header h1{font-size:1.7rem}main{padding:10px}.task{padding:12px;gap:9px;flex-wrap:wrap}.task-info{flex-basis:calc(100% - 36px)}.task-actions{width:100%;padding-left:29px}.btn{width:100%}}
+:root{--plum:#653650;--deep:#432238;--rose:#f4e3eb;--rose2:#dfb7ca;--cream:#fbf6f8;--ink:#302631;--muted:#796b78;--line:#eadde5;--green:#267b53;--yellow:#ad7908;--red:#bd4054;--shadow:0 12px 34px rgba(75,39,61,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{transition:transform .16s,box-shadow .16s,background .16s}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #c78aaa;outline-offset:2px}
+header{position:relative;overflow:hidden;color:#fff;padding:26px max(22px,calc((100vw - 1240px)/2));background:radial-gradient(circle at 90% 10%,#ffffff26,transparent 26%),linear-gradient(125deg,var(--deep),#75445f 58%,#a66d88)}header:after{content:"✿";position:absolute;right:max(24px,calc((100vw - 1240px)/2));top:-7px;font-size:112px;line-height:1;color:#ffffff1a;pointer-events:none}.brand{display:flex;align-items:center;gap:14px;position:relative;z-index:1}.brand-mark{display:grid;place-items:center;width:54px;height:54px;border-radius:18px;background:#fff2;border:1px solid #ffffff45;font-weight:900;letter-spacing:-.08em;font-size:18px}.brand h1{margin:0;font-size:1.85rem;letter-spacing:.09em;font-weight:850;line-height:1.1}.brand p{margin:5px 0 0;color:#fff7fb;font-size:.88rem}.header-bottom{position:relative;z-index:1;display:flex;align-items:end;justify-content:space-between;gap:18px;margin-top:24px}.header-bottom h2{margin:0;font-size:clamp(1.35rem,2.7vw,2rem);letter-spacing:-.04em}.header-bottom p{margin:5px 0 0;color:#fff0f7}.clock-chip{flex:0 0 auto;border:1px solid #ffffff4a;background:#ffffff18;border-radius:16px;padding:10px 15px;text-align:right}.clock-chip strong{display:block;font-size:1.35rem;font-variant-numeric:tabular-nums}.clock-chip span{font-size:.78rem;color:#fff0f7}
+.auth-wrap{width:min(680px,calc(100% - 28px));margin:24px auto 40px}.auth-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow)}.auth-card h2{margin-bottom:8px}.auth-card p{color:var(--muted)}.auth-tabs{display:flex;gap:8px;margin:14px 0 20px}.auth-tabs button{flex:1;text-align:center;justify-content:center}.auth-message{padding:11px 13px;border-radius:12px;background:#f8f1f5;color:var(--plum);margin-top:12px;overflow-wrap:anywhere}.auth-message.error{background:#fff0f1;color:#9b2638}
+main{width:min(1240px,100%);margin:0 auto;padding:24px;display:grid;grid-template-columns:220px minmax(0,1fr);align-items:start;gap:22px}nav{position:sticky;top:18px;display:grid;gap:7px;padding:12px;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}nav .nav-label{padding:7px 12px 3px;color:#a0919e;font-size:.7rem;font-weight:850;letter-spacing:.13em;text-transform:uppercase}nav button,.btn{border:0;border-radius:13px;padding:11px 14px;background:var(--rose);color:var(--plum);font-weight:750;cursor:pointer;text-align:left}nav button{display:flex;align-items:center;gap:11px;background:transparent;padding:13px 12px;color:#6b5666}nav button .nav-icon{width:29px;height:29px;display:grid;place-items:center;background:#f8eff4;border-radius:10px}nav button:hover{background:#faf0f5;transform:translateY(-1px)}nav button.active{background:var(--plum);color:white;box-shadow:0 5px 13px #65365026}nav button.active .nav-icon{background:#ffffff22;color:#fff}.nav-spacer{height:12px}.nav-user{margin-top:6px;border-top:1px solid var(--line);padding:14px 8px 2px}.user-email{font-size:.82rem;color:var(--muted);overflow-wrap:anywhere}
+.view{min-width:0;display:grid;gap:17px}.view[hidden]{display:none!important}.panel,section{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}.welcome-panel{background:linear-gradient(120deg,#fff,#fff5f8);border-color:#ead5e0}.eyebrow{margin:0 0 6px;color:#a06b87;font-size:.73rem;font-weight:850;letter-spacing:.12em;text-transform:uppercase}h2{font-size:1.12rem;letter-spacing:-.02em;margin:0 0 14px;display:flex;align-items:center;gap:9px}h2:before{content:"";display:block;width:5px;height:20px;border-radius:5px;background:var(--rose2)}h3{margin:0 0 8px;font-size:1rem}.muted{color:var(--muted);font-size:.9rem}.btn{text-align:center;display:inline-flex;justify-content:center;align-items:center;gap:7px}.btn:hover{transform:translateY(-1px);box-shadow:0 7px 16px #65365018}.btn.primary{background:var(--plum);color:white;box-shadow:0 5px 13px #65365026}.btn.ghost{background:#fff;border:1px solid var(--line)}.btn:disabled{opacity:.6;cursor:wait}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:grid;gap:6px;margin-bottom:13px}label{font-size:.87rem;font-weight:750;color:#51434f}input,select,textarea{width:100%;padding:12px 13px;border:1px solid #ded0d9;border-radius:12px;font:inherit;background:#fff;color:var(--ink);min-width:0}input::placeholder,textarea::placeholder{color:#a0929e}input:focus,select:focus,textarea:focus{border-color:#a66d88;box-shadow:0 0 0 3px #f4e3eb;outline:none}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}.stat{padding:15px;border:1px solid #efdee7;background:#fff;border-radius:17px;min-width:0}.stat-top{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--muted);font-size:.79rem;font-weight:700}.stat-icon{display:grid;place-items:center;width:31px;height:31px;border-radius:11px;background:var(--rose);color:var(--plum)}.stat strong{display:block;font-size:1.65rem;line-height:1.3;margin-top:8px}.stat small{display:block;color:var(--muted);font-size:.75rem;margin-top:2px}.section-heading{display:flex;align-items:start;justify-content:space-between;gap:12px;margin-bottom:14px}.section-heading h2{margin-bottom:3px}.section-heading p{margin:0}.dashboard-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:17px}.task-list{display:grid;gap:10px}.task{display:flex;align-items:flex-start;gap:12px;padding:14px;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:15px;background:#fff;min-width:0}.task.yellow{border-left-color:var(--yellow);background:linear-gradient(90deg,#fffaf0,#fff 30%)}.task.red{border-left-color:var(--red);background:linear-gradient(90deg,#fff5f6,#fff 30%)}.task.done{opacity:.58}.task.done .task-title{text-decoration:line-through}.task>input[type=checkbox]{width:19px;height:19px;margin-top:3px;accent-color:var(--plum);flex:0 0 auto}.task-info{flex:1;min-width:0}.task-title{font-weight:800;overflow-wrap:anywhere}.task-meta{font-size:.82rem;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}.task-actions{display:flex;gap:7px;flex-wrap:wrap}.small{padding:8px 10px;font-size:.8rem;font-weight:750;border-radius:10px;border:1px solid var(--line);background:#f8eff4;color:var(--plum);cursor:pointer}.empty-state{padding:24px 15px;text-align:center;border:1px dashed #e5cfdb;border-radius:15px;background:#fffafd}.empty-state .empty-icon{font-size:1.8rem}.empty-state p{margin:6px 0 0}.calendar-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}.calendar-top h2{margin:0}.calendar-top h2:before{display:none}.calendar-controls{display:flex;align-items:center;gap:8px}.icon-btn{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--plum);font-weight:900;cursor:pointer}.icon-btn:hover{background:var(--rose)}.month-label{min-width:145px;text-align:center;font-weight:850}.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.weekday{text-align:center;color:#a08d9b;font-size:.72rem;font-weight:850;padding:6px 0}.day{min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:1px solid transparent;border-radius:13px;background:#fff;color:var(--ink);cursor:pointer;font-variant-numeric:tabular-nums}.day:hover{background:#fbf0f5;border-color:#eedbe5}.day.other-month{color:#b7aab4}.day.today{border-color:#d8a8c0;background:#fff4f8;font-weight:900}.day.selected{background:var(--plum);color:white;box-shadow:0 5px 13px #65365025}.dots{display:flex;gap:3px;height:5px}.dots i{width:5px;height:5px;border-radius:50%;background:#c98aa8;display:block}.day.selected .dots i{background:#fff}.calendar-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;color:var(--muted);font-size:.76rem}.legend-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#c98aa8;margin-right:5px}.selected-date{margin-top:20px;padding-top:17px;border-top:1px solid var(--line)}.selected-date-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.date-badge{background:#f8eff4;color:var(--plum);padding:5px 9px;border-radius:9px;font-size:.75rem;font-weight:800}.form-card{background:linear-gradient(135deg,#fff,#fff9fb)}.form-actions,.inline-actions{display:flex;gap:9px;flex-wrap:wrap}.notice{background:#fff6dc;border:1px solid #f2e1a9;padding:13px 14px;border-radius:13px;font-size:.88rem;color:#725719}.voice-result{min-height:24px;margin-top:10px;color:var(--plum);font-weight:650}#notificationStatus{padding:10px 12px;border-radius:12px;background:#f8f1f5}#cycleResult{font-weight:750;color:var(--plum)}.hidden{display:none!important}footer{max-width:1240px;margin:0 auto;text-align:center;color:var(--muted);font-size:.8rem;padding:0 22px 28px}
+@media(max-width:900px){main{grid-template-columns:1fr;padding:17px;gap:15px}nav{position:static;display:flex;overflow-x:auto;gap:5px;padding:8px;border-radius:17px}nav .nav-label,.nav-spacer,.nav-user{display:none}nav button{white-space:nowrap;flex:0 0 auto;padding:9px 11px;font-size:.85rem}nav button .nav-icon{width:25px;height:25px}.dashboard-grid{grid-template-columns:1fr}}
+@media(max-width:560px){header{padding:22px 16px 23px}.brand-mark{width:46px;height:46px}.brand h1{font-size:1.55rem}.header-bottom{align-items:start;flex-direction:column;margin-top:19px;gap:12px}.clock-chip{display:flex;align-items:center;gap:10px;text-align:left;padding:7px 12px}.clock-chip strong{font-size:1.05rem}main{padding:10px;gap:11px}section,.panel{padding:16px;border-radius:18px}.grid{grid-template-columns:1fr;gap:0}.stats{gap:7px}.stat{padding:10px 8px}.stat-top{font-size:.68rem;display:block}.stat-icon{display:none}.stat strong{font-size:1.35rem;margin-top:4px}.stat small{font-size:.67rem}.task{padding:12px;gap:9px;flex-wrap:wrap}.task-info{flex-basis:calc(100% - 36px)}.task-actions{width:100%;padding-left:29px}.btn{width:100%}.form-actions .btn{width:auto;flex:1}.calendar-grid{gap:3px}.day{min-height:42px;border-radius:10px;font-size:.86rem}.weekday{font-size:.65rem}.month-label{min-width:120px;font-size:.9rem}.calendar-top{align-items:flex-start}.calendar-controls{gap:4px}.icon-btn{width:34px;height:34px}.selected-date-head{align-items:flex-start;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
-
 </style>
 </head>
 <body>
-<header>
-  <h1>E.V.A.</h1>
-  <p>Empreendedorismo, Visão e Administração</p>
-  <p>Uma rotina mais organizada, no seu ritmo. 🌷</p>
-</header>
-<section id="authGate" class="auth-wrap hidden" aria-labelledby="authTitle">
-  <div class="auth-card">
-    <p class="muted" style="margin:0 0 5px;font-weight:750;letter-spacing:.08em;text-transform:uppercase">Seu espaço, sua rotina</p>
-    <h2 id="authTitle">Entre no E.V.A. 🌷</h2>
-    <p>Entre na sua conta para manter suas tarefas sincronizadas entre dispositivos.</p>
-    <div class="auth-tabs"><button class="btn primary" id="showLogin" type="button">Entrar</button><button class="btn" id="showRegister" type="button">Criar conta</button></div>
-    <form id="authForm">
-      <div class="field"><label for="authEmail">E-mail</label><input id="authEmail" type="email" autocomplete="email" required maxlength="254" placeholder="voce@exemplo.com"></div>
-      <div class="field"><label for="authPassword">Senha</label><input id="authPassword" type="password" autocomplete="current-password" required minlength="6" maxlength="128" placeholder="Pelo menos 6 caracteres"></div>
-      <button class="btn primary" id="authSubmit" type="submit">Entrar</button>
-    </form>
-    <div id="authMessage" class="auth-message hidden" role="status" aria-live="polite"></div>
-    <p class="muted" style="font-size:.82rem;margin-bottom:0">Use uma senha exclusiva para o E.V.A. Nunca compartilhe sua senha.</p>
-  </div>
-</section>
-<div id="appShell" class="hidden">
-<main>
-  <nav aria-label="Seções do aplicativo">
-    <button class="active" data-view="agenda">Agenda</button>
-    <button data-view="ciclo">Ciclo menstrual</button>
-    <button data-view="acessibilidade">Acessibilidade</button>
-  </nav>
-
-  <div id="agenda" class="view">
-    <section class="welcome-panel">
-      <div class="user-bar"><div><p class="muted" id="syncStatus" style="margin:0 0 6px">Conectando sua conta…</p><div class="user-email" id="userEmail"></div></div><button class="btn" id="logoutBtn" type="button">Sair da conta</button></div>
-      <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
-      <p class="muted" style="margin:0 0 5px;font-weight:750;letter-spacing:.08em;text-transform:uppercase">Seu espaço de organização</p>
-      <h2 style="font-size:1.45rem;margin-bottom:7px">Vamos cuidar do seu dia? 🌷</h2>
-      <p class="muted" style="margin:0">Organize o que é importante, uma tarefa de cada vez. Suas atividades ficam salvas neste navegador.</p>
-    </section>
-    <section>
-      <h2>Adicionar tarefa</h2>
-      <form id="taskForm">
-        <div class="field"><label for="taskName">O que precisa fazer?</label><input id="taskName" required maxlength="120" placeholder="Ex.: Buscar meu filho"></div>
-        <div class="grid">
-          <div class="field"><label for="taskDate">Data</label><input id="taskDate" type="date" required></div>
-          <div class="field"><label for="taskTime">Horário</label><input id="taskTime" type="time" required></div>
-          <div class="field"><label for="taskPriority">Prioridade</label><select id="taskPriority"><option value="green">Verde — flexível</option><option value="yellow">Amarela — importante</option><option value="red">Vermelha — alta prioridade</option></select></div>
-          <div class="field"><label for="taskRepeat">Repetição</label><select id="taskRepeat"><option value="none">Não repetir</option><option value="daily">Todos os dias</option></select></div>
-        </div>
-        <div class="field"><label for="taskNotes">Observação (opcional)</label><input id="taskNotes" maxlength="200" placeholder="Detalhes úteis"></div>
-        <button class="btn primary" type="submit">＋ Salvar tarefa</button>
-      </form>
-    </section>
-    <section>
-      <h2>Minha rotina</h2>
-      <p class="muted">Vermelho: alta prioridade · Amarelo: importante · Verde: flexível. As tarefas ficam salvas neste navegador.</p>
-      <div id="taskList" class="task-list"></div>
-    </section>
-    <section>
-      <h2>Alarmes e notificações</h2>
-      <p class="muted">Ative as notificações neste dispositivo e faça um teste. Para receber alertas, mantenha o E.V.A. aberto; alarmes com o app fechado exigem uma implementação nativa ou um serviço de notificações push.</p>
-      <div class="task-actions">
-        <button class="btn primary" id="enableNotifications" type="button">🔔 Ativar notificações</button>
-        <button class="btn" id="testAlarm" type="button">▶ Testar alarme</button>
-      </div>
-      <p id="notificationStatus" class="muted" role="status" aria-live="polite">Notificações ainda não configuradas.</p>
-    </section>
-    <section>
-      <h2>Fale com a EVA</h2>
-      <p class="muted">Experimente dizer: “Adicionar tarefa reunião amanhã às 14 horas”. Neste protótipo, a voz ajuda a preencher o campo; confira data e horário antes de salvar.</p>
-      <button class="btn primary" id="voiceBtn" type="button">🎙️ Falar com a EVA</button>
-      <div id="voiceResult" class="voice-result" aria-live="polite"></div>
-      <div class="field"><label for="voiceText">Ou escreva o que você diria à EVA</label><input id="voiceText" placeholder="Ex.: Separar pedidos às 16 horas"></div>
-      <button class="btn" id="useVoiceText" type="button">Usar texto na tarefa</button>
-    </section>
-  </div>
-
-  <div id="ciclo" class="view hidden">
-    <section>
-      <h2>Meu ciclo menstrual</h2>
-      <p class="muted">O preenchimento é opcional. Use estes dados apenas para acompanhar seu ciclo; a previsão é aproximada e não serve como método contraceptivo nem diagnóstico.</p>
-      <form id="cycleForm">
-        <div class="grid">
-          <div class="field"><label for="periodStart">Primeiro dia da última menstruação</label><input id="periodStart" type="date"></div>
-          <div class="field"><label for="cycleLength">Duração média do ciclo (dias)</label><input id="cycleLength" type="number" min="15" max="60" value="28"></div>
-        </div>
-        <button class="btn primary" type="submit">Calcular previsão</button>
-      </form>
-      <div id="cycleResult" aria-live="polite" style="margin-top:12px"></div>
-      <p class="notice">Privacidade: nesta versão, as informações ficam armazenadas apenas no navegador deste dispositivo. Evite usar em um dispositivo compartilhado.</p>
-    </section>
-  </div>
-
-  <div id="acessibilidade" class="view hidden">
-    <section>
-      <h2>Acessibilidade</h2>
-      <p>O protótipo oferece botões com texto, navegação por teclado, contraste e leitura por voz quando o navegador suporta essa função.</p>
-      <div class="field"><label for="readText">Texto para a EVA ler em voz alta</label><textarea id="readText" rows="3">Olá! Eu sou a EVA. Vamos organizar sua rotina com calma.</textarea></div>
-      <button class="btn primary" id="speakBtn" type="button">🔊 Ler em voz alta</button>
-      <button class="btn" id="stopSpeakBtn" type="button">Parar leitura</button>
-      <p class="muted">Para pessoas surdas, uma versão futura pode incluir instruções visuais, legendas e alertas por vibração. Para pessoas com deficiência visual, é importante testar com leitores de tela reais.</p>
-    </section>
-  </div>
-</main>
-</div>
-<footer>E.V.A. • As tarefas da conta são sincronizadas com o Firebase. Os dados do ciclo menstrual não são enviados à nuvem nesta versão. Os alarmes do navegador funcionam enquanto a página estiver ativa.</footer>
+<header><div class="brand"><div class="brand-mark" aria-hidden="true">E.V.A.</div><div><h1>E.V.A.</h1><p>Empreendedorismo, Visão e Administração</p></div></div><div class="header-bottom"><div><h2>Sua rotina, em equilíbrio. 🌷</h2><p>Um espaço para organizar o que importa, com leveza e clareza.</p></div><div class="clock-chip"><div><strong id="liveClock">--:--:--</strong><span id="liveDate">Carregando data…</span></div></div></div></header>
+<section id="authGate" class="auth-wrap hidden" aria-labelledby="authTitle"><div class="auth-card"><p class="eyebrow">Seu espaço, sua rotina</p><h2 id="authTitle">Entre no E.V.A. 🌷</h2><p>Entre na sua conta para manter suas tarefas sincronizadas entre dispositivos.</p><div class="auth-tabs"><button class="btn primary" id="showLogin" type="button">Entrar</button><button class="btn" id="showRegister" type="button">Criar conta</button></div><form id="authForm"><div class="field"><label for="authEmail">E-mail</label><input id="authEmail" type="email" autocomplete="email" required maxlength="254" placeholder="voce@exemplo.com"></div><div class="field"><label for="authPassword">Senha</label><input id="authPassword" type="password" autocomplete="current-password" required minlength="6" maxlength="128" placeholder="Pelo menos 6 caracteres"></div><button class="btn primary" id="authSubmit" type="submit">Entrar</button></form><div id="authMessage" class="auth-message hidden" role="status" aria-live="polite"></div><p class="muted" style="font-size:.82rem;margin-bottom:0">Use uma senha exclusiva para o E.V.A. Nunca compartilhe sua senha.</p></div></section>
+<div id="appShell" class="hidden"><main>
+<nav aria-label="Seções do aplicativo"><div class="nav-label">Seu espaço</div><button class="active" data-view="inicio"><span class="nav-icon">⌂</span>Início</button><button data-view="agenda"><span class="nav-icon">✓</span>Tarefas</button><button data-view="calendario"><span class="nav-icon">▦</span>Calendário</button><div class="nav-spacer"></div><div class="nav-label">Preferências</div><button data-view="ciclo"><span class="nav-icon">♡</span>Ciclo menstrual</button><button data-view="acessibilidade"><span class="nav-icon">◉</span>Acessibilidade</button><div class="nav-user"><div class="eyebrow">Conta conectada</div><div id="userEmail" class="user-email"></div><button class="small" id="logoutBtn" type="button" style="margin-top:10px">Sair da conta ↗</button></div></nav>
+<div id="inicio" class="view"><section class="welcome-panel"><div class="section-heading"><div><p class="eyebrow" id="greeting">Seu espaço de organização</p><h2 style="font-size:1.45rem;margin-bottom:7px">Vamos cuidar do seu dia?</h2><p class="muted" style="margin:0">Um passo de cada vez. Você está construindo uma rotina mais leve. 🌷</p></div><span class="date-badge" id="todayBadge">Hoje</span></div><div class="stats"><div class="stat"><div class="stat-top"><span>Pendentes</span><span class="stat-icon">◷</span></div><strong id="pendingCount">0</strong><small>tarefas para fazer</small></div><div class="stat"><div class="stat-top"><span>Concluídas</span><span class="stat-icon">✓</span></div><strong id="doneCount">0</strong><small>passos realizados</small></div><div class="stat"><div class="stat-top"><span>Hoje</span><span class="stat-icon">✿</span></div><strong id="todayCount">0</strong><small>compromissos no dia</small></div></div></section>
+<div class="dashboard-grid"><section><div class="section-heading"><div><h2>Próximas atividades</h2><p class="muted">O que vem pela frente na sua rotina.</p></div><button class="small" type="button" data-goto="agenda">Ver tarefas →</button></div><div id="upcomingList" class="task-list"></div></section><section><div class="calendar-top"><h2>Seu calendário</h2><div class="calendar-controls"><button class="icon-btn" id="prevMonth" aria-label="Mês anterior" type="button">‹</button><div class="month-label" id="monthLabel"></div><button class="icon-btn" id="nextMonth" aria-label="Próximo mês" type="button">›</button></div></div><div id="miniCalendar" class="calendar-grid"></div><div class="calendar-legend"><span><i class="legend-dot"></i>Dia com tarefa</span><span>Contorno rosa: hoje</span></div><div class="selected-date"><div class="selected-date-head"><strong id="miniSelectedLabel">Agenda do dia</strong><button class="small" type="button" data-goto="calendario">Abrir calendário →</button></div><div id="miniDayTasks" class="task-list"></div></div></section></div>
+<section><div class="section-heading"><div><h2>Adicionar rapidamente</h2><p class="muted">Anote um compromisso sem sair do painel.</p></div></div><form id="quickTaskForm"><div class="grid"><div class="field"><label for="quickName">Nome da tarefa</label><input id="quickName" maxlength="120" required placeholder="Ex.: Preparar pedidos"></div><div class="field"><label for="quickDate">Data</label><input id="quickDate" type="date" required></div><div class="field"><label for="quickTime">Horário</label><input id="quickTime" type="time" required></div><div class="field"><label for="quickPriority">Prioridade</label><select id="quickPriority"><option value="green">Flexível</option><option value="yellow">Importante</option><option value="red">Alta prioridade</option></select></div></div><button class="btn primary" type="submit">＋ Adicionar à rotina</button></form></section></div>
+<div id="agenda" class="view" hidden><section><div class="section-heading"><div><h2>Minhas tarefas</h2><p class="muted">Tudo o que você precisa fazer, organizado por data e prioridade.</p></div><span class="date-badge" id="taskCountBadge">0 tarefas</span></div><form id="taskForm" class="form-card" style="padding:17px;border:1px solid var(--line);border-radius:16px;margin-bottom:18px"><h3>＋ Nova tarefa</h3><div class="field"><label for="taskName">O que precisa fazer?</label><input id="taskName" required maxlength="120" placeholder="Ex.: Buscar meu filho"></div><div class="grid"><div class="field"><label for="taskDate">Data do compromisso</label><input id="taskDate" type="date" required></div><div class="field"><label for="taskTime">Horário</label><input id="taskTime" type="time" required></div><div class="field"><label for="taskPriority">Prioridade</label><select id="taskPriority"><option value="green">Verde — flexível</option><option value="yellow">Amarela — importante</option><option value="red">Vermelha — alta prioridade</option></select></div><div class="field"><label for="taskRepeat">Repetição</label><select id="taskRepeat"><option value="none">Não repetir</option><option value="daily">Todos os dias</option></select></div></div><div class="field"><label for="taskNotes">Observação (opcional)</label><input id="taskNotes" maxlength="200" placeholder="Detalhes úteis"></div><div class="form-actions"><button class="btn primary" type="submit">Salvar tarefa</button><button class="btn ghost" type="reset">Limpar campos</button></div></form><div class="section-heading"><div><h2>Lista de atividades</h2><p class="muted">Marque como concluída ou exclua o que não precisa mais.</p></div></div><div id="taskList" class="task-list"></div></section><section><h2>Alarmes e notificações</h2><p class="muted">Ative as notificações neste dispositivo. Os avisos funcionam enquanto o E.V.A. estiver aberto; alertas com o app fechado precisam de implementação nativa ou push.</p><div class="inline-actions"><button class="btn primary" id="enableNotifications" type="button">🔔 Ativar notificações</button><button class="btn ghost" id="testAlarm" type="button">▶ Testar alarme</button></div><p id="notificationStatus" class="muted" role="status" aria-live="polite">Notificações ainda não configuradas.</p></section><section><h2>Fale com a EVA</h2><p class="muted">Diga ou escreva algo como “Adicionar tarefa reunião amanhã às 14 horas”. Confira os campos antes de salvar.</p><button class="btn primary" id="voiceBtn" type="button">🎙️ Falar com a EVA</button><div id="voiceResult" class="voice-result" aria-live="polite"></div><div class="field"><label for="voiceText">Ou escreva o que você diria à EVA</label><input id="voiceText" placeholder="Ex.: Separar pedidos às 16 horas"></div><button class="btn ghost" id="useVoiceText" type="button">Usar texto na tarefa</button></section></div>
+<div id="calendario" class="view" hidden><section><div class="section-heading"><div><h2>Calendário completo</h2><p class="muted">Escolha um dia para consultar ou adicionar compromissos.</p></div><span class="date-badge" id="calendarTaskCount">0 compromissos</span></div><div class="calendar-top"><div class="calendar-controls"><button class="icon-btn" id="fullPrevMonth" aria-label="Mês anterior" type="button">‹</button><div class="month-label" id="fullMonthLabel"></div><button class="icon-btn" id="fullNextMonth" aria-label="Próximo mês" type="button">›</button></div><button class="small" id="goToday" type="button">Ir para hoje</button></div><div id="fullCalendar" class="calendar-grid"></div><div class="calendar-legend"><span><i class="legend-dot"></i>Dia com tarefa</span><span>Contorno rosa: hoje</span><span>Roxo: dia selecionado</span></div><div class="selected-date"><div class="selected-date-head"><strong id="fullSelectedLabel">Agenda do dia</strong><span class="date-badge" id="selectedTaskCount">0 tarefas</span></div><div id="fullDayTasks" class="task-list"></div></div></section><section><h2>Agendar para o dia selecionado</h2><form id="calendarTaskForm"><div class="field"><label for="calendarTaskName">Nome do compromisso</label><input id="calendarTaskName" required maxlength="120" placeholder="Ex.: Reunião com cliente"></div><div class="grid"><div class="field"><label for="calendarTaskDate">Data escolhida</label><input id="calendarTaskDate" type="date" required></div><div class="field"><label for="calendarTaskTime">Horário</label><input id="calendarTaskTime" type="time" required></div><div class="field"><label for="calendarTaskPriority">Prioridade</label><select id="calendarTaskPriority"><option value="green">Flexível</option><option value="yellow">Importante</option><option value="red">Alta prioridade</option></select></div><div class="field"><label for="calendarTaskRepeat">Repetição</label><select id="calendarTaskRepeat"><option value="none">Não repetir</option><option value="daily">Todos os dias</option></select></div></div><div class="field"><label for="calendarTaskNotes">Observação (opcional)</label><input id="calendarTaskNotes" maxlength="200" placeholder="Detalhes úteis"></div><button class="btn primary" type="submit">＋ Salvar neste dia</button></form></section></div>
+<div id="ciclo" class="view" hidden><section><h2>Meu ciclo menstrual</h2><p class="muted">O preenchimento é opcional. A previsão é aproximada e não serve como método contraceptivo nem diagnóstico.</p><form id="cycleForm"><div class="grid"><div class="field"><label for="periodStart">Primeiro dia da última menstruação</label><input id="periodStart" type="date"></div><div class="field"><label for="cycleLength">Duração média do ciclo (dias)</label><input id="cycleLength" type="number" min="15" max="60" value="28"></div></div><button class="btn primary" type="submit">Calcular previsão</button></form><div id="cycleResult" aria-live="polite" style="margin-top:12px"></div><p class="notice">Privacidade: estas informações ficam apenas neste navegador e não são enviadas ao Firebase.</p></section></div>
+<div id="acessibilidade" class="view" hidden><section><h2>Acessibilidade</h2><p class="muted">Use a navegação por teclado, contraste e leitura por voz quando disponível.</p><div class="field"><label for="readText">Texto para a EVA ler em voz alta</label><textarea id="readText" rows="3">Olá! Eu sou a EVA. Vamos organizar sua rotina com calma.</textarea></div><div class="inline-actions"><button class="btn primary" id="speakBtn" type="button">🔊 Ler em voz alta</button><button class="btn ghost" id="stopSpeakBtn" type="button">Parar leitura</button></div><p class="muted" style="margin-top:14px">Recomendamos testar também com leitores de tela reais.</p></section></div>
+</main></div>
+<footer>E.V.A. • Suas tarefas são sincronizadas com o Firebase. Os dados do ciclo menstrual permanecem neste dispositivo. Os alarmes do navegador funcionam enquanto a página está ativa.</footer>
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
-import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy, writeBatch } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
-
-const $ = id => document.getElementById(id);
-// Firebase Console > Configurações do projeto > Geral > Seus apps > App da Web
-const firebaseConfig = {
-  apiKey: "AIzaSyB7WUcm0rdwWZGKGkJLq5U3iufeS2vXgNo",
-  authDomain: "eva-app-2026-br.firebaseapp.com",
-  projectId: "eva-app-2026-br",
-  storageBucket: "eva-app-2026-br.firebasestorage.app",
-  messagingSenderId: "157424520203",
-  appId: "1:157424520203:web:fb72d32bb8cde0593a4b0e"
-};
-const configReady = firebaseConfig.apiKey !== "COLOQUE_SUA_API_KEY" && firebaseConfig.projectId !== "COLOQUE_SEU_PROJECT_ID";
-let app, auth, db;
-if (configReady) { app = initializeApp(firebaseConfig); auth = getAuth(app); db = getFirestore(app); }
-const STORAGE_KEY = 'eva_tasks_v1';
-let tasks = [], currentUser = null, stopTasksListener = null, authMode = 'login';
-const localDate = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-
-function showAuthMessage(message, error=false) {
-  const el=$('authMessage'); el.textContent=message; el.classList.remove('hidden','error'); if(error) el.classList.add('error');
-}
-function setSyncStatus(message){ $('syncStatus').textContent=message; }
-function updateAuthMode(mode) {
-  authMode=mode;
-  $('authTitle').textContent=mode==='login'?'Entre no E.V.A. 🌷':'Crie sua conta no E.V.A. 🌷';
-  $('authSubmit').textContent=mode==='login'?'Entrar':'Criar conta';
-  $('showLogin').classList.toggle('primary',mode==='login'); $('showRegister').classList.toggle('primary',mode==='register');
-  $('authPassword').autocomplete=mode==='login'?'current-password':'new-password'; $('authMessage').classList.add('hidden');
-}
-$('showLogin').addEventListener('click',()=>updateAuthMode('login'));
-$('showRegister').addEventListener('click',()=>updateAuthMode('register'));
-$('authForm').addEventListener('submit',async e=>{
-  e.preventDefault();
-  if(!configReady){showAuthMessage('Falta preencher a configuração do app Web do Firebase no index.html. Veja LEIA-ME.txt.',true);return;}
-  const email=$('authEmail').value.trim(), password=$('authPassword').value;
-  $('authSubmit').disabled=true;
-  try {
-    if(authMode==='register') await createUserWithEmailAndPassword(auth,email,password);
-    else await signInWithEmailAndPassword(auth,email,password);
-  } catch(error) {
-    const msgs={'auth/email-already-in-use':'Este e-mail já possui conta. Tente entrar.','auth/invalid-email':'Digite um e-mail válido.','auth/weak-password':'A senha precisa ter pelo menos 6 caracteres.','auth/invalid-credential':'E-mail ou senha incorretos.','auth/too-many-requests':'Muitas tentativas. Aguarde e tente novamente.','auth/network-request-failed':'Falha de conexão. Confira sua internet.'};
-    showAuthMessage(msgs[error.code]||`Não foi possível concluir (${error.code||'erro'}).`,true);
-  } finally {$('authSubmit').disabled=false;}
-});
-$('logoutBtn').addEventListener('click',async()=>{if(stopTasksListener){stopTasksListener();stopTasksListener=null;} if(auth) await signOut(auth);});
-
-// Ciclo menstrual permanece apenas neste navegador, sem envio ao Firestore.
-const CYCLE_KEY='eva_cycle_private_v1';
-try {const c=JSON.parse(localStorage.getItem(CYCLE_KEY)||'null'); if(c){$('periodStart').value=c.start||'';$('cycleLength').value=c.length||28;}} catch {}
-
-const today = new Date();
-$('taskDate').value = localDate(today);
-
-function saveTasks(){
-  if(!currentUser||!db) return;
-  const batch=writeBatch(db);
-  for(const task of tasks){const {id,...data}=task;batch.set(doc(db,'users',currentUser.uid,'tasks',String(id)),data,{merge:true});}
-  batch.commit().then(()=>setSyncStatus('✓ Sincronizado com segurança')).catch(err=>{setSyncStatus('Erro ao sincronizar. Confira as regras do Firestore.');console.error(err);});
-}
-function priorityLabel(p){ return ({green:'Verde · flexível',yellow:'Amarela · importante',red:'Vermelha · alta prioridade'})[p] || 'Verde'; }
-function renderTasks(){
-  const list = $('taskList'); list.replaceChildren();
-  const sorted = [...tasks].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
-  if(!sorted.length){ list.innerHTML='<p class="muted">Nenhuma tarefa cadastrada ainda. Adicione a primeira acima.</p>'; return; }
-  sorted.forEach(task=>{
-    const card=document.createElement('article'); card.className=`task ${task.priority} ${task.done?'done':''}`;
-    const check=document.createElement('input'); check.type='checkbox'; check.checked=!!task.done; check.setAttribute('aria-label',`Concluir ${task.name}`);
-    check.addEventListener('change',()=>{task.done=check.checked;saveTasks();renderTasks();});
-    const info=document.createElement('div'); info.className='task-info';
-    const title=document.createElement('div'); title.className='task-title'; title.textContent=task.name;
-    const meta=document.createElement('div'); meta.className='task-meta'; meta.textContent=`${task.date} às ${task.time} · ${priorityLabel(task.priority)}${task.repeat==='daily'?' · diária':''}${task.notes?' · '+task.notes:''}`;
-    info.append(title,meta);
-    const actions=document.createElement('div'); actions.className='task-actions';
-    const del=document.createElement('button'); del.className='small'; del.textContent='Excluir'; del.setAttribute('aria-label',`Excluir ${task.name}`);
-    del.addEventListener('click',async()=>{tasks=tasks.filter(t=>t.id!==task.id);renderTasks();if(currentUser&&db){try{await deleteDoc(doc(db,'users',currentUser.uid,'tasks',String(task.id)));setSyncStatus('✓ Sincronizado com segurança');}catch(err){setSyncStatus('Falha ao excluir na nuvem. Confira as regras.');console.error(err);}}});
-    actions.append(del); card.append(check,info,actions); list.append(card);
-  });
-}
-$('taskForm').addEventListener('submit',e=>{
-  e.preventDefault();
-  const task={id:Date.now().toString(),name:$('taskName').value.trim(),date:$('taskDate').value,time:$('taskTime').value,priority:$('taskPriority').value,repeat:$('taskRepeat').value,notes:$('taskNotes').value.trim(),done:false,alerted:false};
-  if(!task.name||!task.date||!task.time)return;
-  tasks.push(task);renderTasks();e.target.reset();$('taskDate').value=localDate(new Date());
-  if(currentUser&&db){const {id,...data}=task;setDoc(doc(db,'users',currentUser.uid,'tasks',String(id)),data).then(()=>setSyncStatus('✓ Tarefa salva e sincronizada')).catch(err=>{setSyncStatus('Falha ao salvar. Confira as regras do Firestore.');console.error(err);});}
-});
-document.querySelectorAll('nav button').forEach(btn=>btn.addEventListener('click',()=>{
-  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b===btn));
-  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('hidden',v.id!==btn.dataset.view));
-}));
-$('cycleForm').addEventListener('submit',e=>{
-  e.preventDefault(); const start=$('periodStart').value; const length=Number($('cycleLength').value);
-  if(!start||length<15||length>60){$('cycleResult').textContent='Informe a data e uma duração entre 15 e 60 dias.';return;}
-  const next=new Date(start+'T12:00:00'); next.setDate(next.getDate()+length);
-  $('cycleResult').textContent='Próxima menstruação estimada: '+next.toLocaleDateString('pt-BR')+'. Essa é apenas uma estimativa; o ciclo pode variar.'; localStorage.setItem(CYCLE_KEY,JSON.stringify({start,length}));
-});
-function useVoiceText(text){
-  $('voiceText').value=text;
-  const timeMatch=text.match(/\b([01]?\d|2[0-3])(?:h|:)([0-5]\d)?\b/i);
-  if(timeMatch){$('taskTime').value=String(timeMatch[1]).padStart(2,'0')+':'+(timeMatch[2]||'00');}
-  const lower=text.toLowerCase();
-  if(lower.includes('amanhã')){const d=new Date();d.setDate(d.getDate()+1);$('taskDate').value=localDate(d);}
-  const name=text.replace(/^(eva[, ]*)?(adicionar tarefa|me lembre de|lembre-me de|lembrar de)\s*/i,'').replace(/\s*(hoje|amanhã)?\s*às?\s*\d{1,2}(?:h|:\d{2})?.*$/i,'').trim();
-  if(name)$('taskName').value=name;
-}
-$('useVoiceText').addEventListener('click',()=>useVoiceText($('voiceText').value));
-$('voiceBtn').addEventListener('click',()=>{
-  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SpeechRecognition){$('voiceResult').textContent='Seu navegador não oferece reconhecimento de voz. Use o campo de texto abaixo ou tente um navegador compatível.';return;}
-  const rec=new SpeechRecognition();rec.lang='pt-BR';rec.interimResults=false;rec.maxAlternatives=1;
-  $('voiceResult').textContent='Estou ouvindo…';
-  rec.onresult=e=>{const said=e.results[0][0].transcript;$('voiceResult').textContent='Entendi: “'+said+'”. Confira os campos e salve.';useVoiceText(said);};
-  rec.onerror=()=>{$('voiceResult').textContent='Não consegui reconhecer a fala. Confira a permissão do microfone e tente novamente.';};
-  rec.start();
-});
-$('speakBtn').addEventListener('click',()=>{
-  if(!('speechSynthesis' in window)){$('readText').insertAdjacentHTML('afterend','<p class="muted">Leitura por voz não é compatível com este navegador.</p>');return;}
-  speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance($('readText').value);utterance.lang='pt-BR';speechSynthesis.speak(utterance);
-});
-$('stopSpeakBtn').addEventListener('click',()=>{if('speechSynthesis' in window)speechSynthesis.cancel();});
-
-// Alertas funcionam enquanto esta página permanece aberta. Navegadores podem suspender páginas em segundo plano.
-function setNotificationStatus(message){
-  const el = $('notificationStatus');
-  if(el) el.textContent = message;
-}
-$('enableNotifications').addEventListener('click', async ()=>{
-  if(!('Notification' in window)){
-    setNotificationStatus('Este navegador não oferece notificações do sistema. Você ainda pode usar os avisos enquanto o E.V.A. estiver aberto.');
-    return;
-  }
-  if(!window.isSecureContext && location.hostname !== 'localhost'){
-    setNotificationStatus('Notificações exigem HTTPS ou localhost. Abra o projeto por um servidor local ou publique-o em HTTPS.');
-    return;
-  }
-  try{
-    const permission = await Notification.requestPermission();
-    setNotificationStatus(permission === 'granted'
-      ? 'Notificações ativadas neste navegador.'
-      : 'Permissão não concedida. Altere a permissão do site nas configurações do navegador.');
-  }catch{
-    setNotificationStatus('Não foi possível solicitar permissão neste navegador.');
-  }
-});
-function fireAlarm(task){
-  const message = `E.V.A.: está na hora de ${task.name}.`;
-  if('Notification' in window && Notification.permission === 'granted'){
-    try { new Notification('Hora da sua tarefa', { body: message, tag: 'eva-' + task.id }); } catch {}
-  }
-  if('speechSynthesis' in window){
-    try{
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(message);
-      utterance.lang = 'pt-BR';
-      speechSynthesis.speak(utterance);
-    }catch{}
-  }
-  // Fallback visual/sonoro when system notifications are unavailable.
-  setNotificationStatus(message);
-}
-$('testAlarm').addEventListener('click', ()=>{
-  fireAlarm({id:'teste', name:'este é um teste de alarme'});
-});
-function checkAlarms(){
-  const now = new Date();
-  const todayString = localDate(now);
-  const currentTime = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-  let changed = false;
-  const due = tasks.filter(t => !t.done && !t.alerted && t.date === todayString && t.time <= currentTime);
-  for(const task of due){
-    task.alerted = true;
-    changed = true;
-    fireAlarm(task);
-    if(task.repeat === 'daily'){
-      const next = new Date(task.date + 'T12:00:00');
-      next.setDate(next.getDate() + 1);
-      tasks.push({...task, id: Date.now().toString() + Math.random().toString(16).slice(2), date: localDate(next), alerted:false, done:false});
-    }
-  }
-  if(changed){ saveTasks(); renderTasks(); }
-}
-if('serviceWorker' in navigator && location.protocol !== 'file:'){
-  window.addEventListener('load', ()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-}
-setInterval(checkAlarms, 10000);
-function beginUserSession(user){
-  currentUser=user; $('authGate').classList.add('hidden'); $('appShell').classList.remove('hidden');
-  $('userEmail').textContent=user.email||'Conta conectada'; setSyncStatus('Carregando suas tarefas…'); tasks=[]; renderTasks();
-  if(stopTasksListener) stopTasksListener();
-  stopTasksListener=onSnapshot(query(collection(db,'users',user.uid,'tasks'),orderBy('date')),snapshot=>{
-    tasks=snapshot.docs.map(d=>({id:d.id,...d.data()})); setSyncStatus('✓ Sincronizado com segurança'); renderTasks();
-  },err=>{setSyncStatus('Não foi possível carregar tarefas. Confira as regras do Firestore.');console.error(err);});
-}
-if(!configReady){
-  $('authGate').classList.remove('hidden'); $('appShell').classList.add('hidden');
-  showAuthMessage('Falta preencher a configuração do app Web do Firebase. Siga o LEIA-ME incluído no pacote.',true);
-}else{
-  onAuthStateChanged(auth,user=>{
-    if(user) beginUserSession(user);
-    else {if(stopTasksListener){stopTasksListener();stopTasksListener=null;}currentUser=null;tasks=[];renderTasks();$('appShell').classList.add('hidden');$('authGate').classList.remove('hidden');updateAuthMode('login');}
-  });
-}
-renderTasks();
+import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
+const $=id=>document.getElementById(id);
+const firebaseConfig={apiKey:"AIzaSyB7WUcm0rdwWZGKGkJLq5U3iufeS2vXgNo",authDomain:"eva-app-2026-br.firebaseapp.com",projectId:"eva-app-2026-br",storageBucket:"eva-app-2026-br.firebasestorage.app",messagingSenderId:"157424520203",appId:"1:157424520203:web:fb72d32bb8cde0593a4b0e"};
+const configReady=firebaseConfig.apiKey!=="COLOQUE_SUA_API_KEY"&&firebaseConfig.projectId!=="COLOQUE_SEU_PROJECT_ID";
+let app,auth,db;if(configReady){app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app)}
+let tasks=[],currentUser=null,stopTasksListener=null,authMode='login';
+const localDate=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const dateFrom=s=>new Date(s+'T12:00:00');let selectedDate=localDate(new Date()),calendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+function updateClock(){const now=new Date();$('liveClock').textContent=now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});$('liveDate').textContent=now.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});$('todayBadge').textContent='Hoje · '+now.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});const h=now.getHours();$('greeting').textContent=h<12?'Bom dia, vamos com calma':h<18?'Boa tarde, vamos organizar':'Boa noite, hora de cuidar de você'};}updateClock();setInterval(updateClock,1000);
+function showAuthMessage(message,error=false){const el=$('authMessage');el.textContent=message;el.classList.remove('hidden','error');if(error)el.classList.add('error')}function setSyncStatus(message){const e=$('syncStatus');if(e)e.textContent=message}
+function updateAuthMode(mode){authMode=mode;$('authTitle').textContent=mode==='login'?'Entre no E.V.A. 🌷':'Crie sua conta no E.V.A. 🌷';$('authSubmit').textContent=mode==='login'?'Entrar':'Criar conta';$('showLogin').classList.toggle('primary',mode==='login');$('showRegister').classList.toggle('primary',mode==='register');$('authPassword').autocomplete=mode==='login'?'current-password':'new-password';$('authMessage').classList.add('hidden')}
+$('showLogin').addEventListener('click',()=>updateAuthMode('login'));$('showRegister').addEventListener('click',()=>updateAuthMode('register'));
+$('authForm').addEventListener('submit',async e=>{e.preventDefault();if(!configReady){showAuthMessage('A configuração do Firebase não está preenchida.',true);return}const email=$('authEmail').value.trim(),password=$('authPassword').value;$('authSubmit').disabled=true;try{if(authMode==='register')await createUserWithEmailAndPassword(auth,email,password);else await signInWithEmailAndPassword(auth,email,password)}catch(error){const msgs={'auth/email-already-in-use':'Este e-mail já possui conta. Tente entrar.','auth/invalid-email':'Digite um e-mail válido.','auth/weak-password':'A senha precisa ter pelo menos 6 caracteres.','auth/invalid-credential':'E-mail ou senha incorretos.','auth/too-many-requests':'Muitas tentativas. Aguarde e tente novamente.','auth/network-request-failed':'Falha de conexão. Confira sua internet.'};showAuthMessage(msgs[error.code]||`Não foi possível concluir (${error.code||'erro'}).`,true)}finally{$('authSubmit').disabled=false}});
+$('logoutBtn').addEventListener('click',async()=>{if(stopTasksListener){stopTasksListener();stopTasksListener=null}if(auth)await signOut(auth)});
+const CYCLE_KEY='eva_cycle_private_v1';try{const c=JSON.parse(localStorage.getItem(CYCLE_KEY)||'null');if(c){$('periodStart').value=c.start||'';$('cycleLength').value=c.length||28}}catch{}
+$('taskDate').value=selectedDate;$('quickDate').value=selectedDate;$('calendarTaskDate').value=selectedDate;
+function priorityLabel(p){return({green:'Verde · flexível',yellow:'Amarela · importante',red:'Vermelha · alta prioridade'})[p]||'Verde'}function sortedTasks(list=tasks){return[...list].sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.time||'').localeCompare(b.time||''))}function tasksOn(date){return sortedTasks(tasks.filter(t=>t.date===date))}
+function persistTask(task){if(!currentUser||!db)return;const{id,...data}=task;setDoc(doc(db,'users',currentUser.uid,'tasks',String(id)),data,{merge:true}).then(()=>setSyncStatus('✓ Sincronizado com segurança')).catch(err=>{setSyncStatus('Erro ao sincronizar. Confira as regras do Firestore.');console.error(err)})}
+function taskCard(task,compact=false){const card=document.createElement('article');card.className=`task ${task.priority||'green'} ${task.done?'done':''}`;const check=document.createElement('input');check.type='checkbox';check.checked=!!task.done;check.setAttribute('aria-label',`Concluir ${task.name}`);check.addEventListener('change',()=>{task.done=check.checked;persistTask(task);renderAll()});const info=document.createElement('div');info.className='task-info';const title=document.createElement('div');title.className='task-title';title.textContent=task.name;const meta=document.createElement('div');meta.className='task-meta';meta.textContent=`${compact?'':dateFrom(task.date).toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})+' · '}${task.time||'Sem horário'} · ${priorityLabel(task.priority)}${task.repeat==='daily'?' · diária':''}${task.notes?' · '+task.notes:''}`;info.append(title,meta);const actions=document.createElement('div');actions.className='task-actions';const del=document.createElement('button');del.className='small';del.textContent='Excluir';del.setAttribute('aria-label',`Excluir ${task.name}`);del.addEventListener('click',async()=>{tasks=tasks.filter(t=>t.id!==task.id);renderAll();if(currentUser&&db){try{await deleteDoc(doc(db,'users',currentUser.uid,'tasks',String(task.id)));setSyncStatus('✓ Sincronizado com segurança')}catch(err){setSyncStatus('Falha ao excluir na nuvem. Confira as regras.');console.error(err)}}});actions.append(del);card.append(check,info,actions);return card}
+function renderList(id,list,empty){const el=$(id);el.replaceChildren();if(!list.length){const e=document.createElement('div');e.className='empty-state';e.innerHTML='<div class="empty-icon">🌷</div>';const p=document.createElement('p');p.className='muted';p.textContent=empty;e.append(p);el.append(e);return}list.forEach(t=>el.append(taskCard(t,id!=='taskList')))}
+function renderTasks(){const sorted=sortedTasks();const list=$('taskList');list.replaceChildren();$('taskCountBadge').textContent=`${tasks.length} ${tasks.length===1?'tarefa':'tarefas'}`;if(!sorted.length){renderList('taskList',[],'Nenhuma tarefa cadastrada ainda. Adicione a primeira para começar.');return}sorted.forEach(t=>list.append(taskCard(t,false)))}
+function renderDashboard(){const today=localDate(new Date()),pending=tasks.filter(t=>!t.done),done=tasks.filter(t=>t.done);$('pendingCount').textContent=pending.length;$('doneCount').textContent=done.length;$('todayCount').textContent=tasks.filter(t=>t.date===today).length;renderList('upcomingList',sortedTasks(pending.filter(t=>t.date>=today)).slice(0,4),'Tudo em dia por aqui. Que tal reservar um momento para você?');renderList('miniDayTasks',tasksOn(selectedDate),'Nenhum compromisso neste dia.');$('miniSelectedLabel').textContent='Agenda · '+dateFrom(selectedDate).toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})}
+const weekdays=['D','S','T','Q','Q','S','S'];
+function renderCalendar(targetId,labelId,month,full=false){const el=$(targetId);el.replaceChildren();const y=month.getFullYear(),m=month.getMonth();$(labelId).textContent=month.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});weekdays.forEach(w=>{const d=document.createElement('div');d.className='weekday';d.textContent=w;el.append(d)});const offset=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),prevDays=new Date(y,m,0).getDate(),cells=Math.ceil((offset+days)/7)*7;for(let i=0;i<cells;i++){let n,date,other=false;if(i<offset){n=prevDays-offset+i+1;date=localDate(new Date(y,m-1,n));other=true}else if(i>=offset+days){n=i-offset-days+1;date=localDate(new Date(y,m+1,n));other=true}else{n=i-offset+1;date=localDate(new Date(y,m,n))}const b=document.createElement('button');b.type='button';b.className='day'+(other?' other-month':'')+(date===localDate(new Date())?' today':'')+(date===selectedDate?' selected':'');b.setAttribute('aria-label',dateFrom(date).toLocaleDateString('pt-BR',{dateStyle:'full'}));b.setAttribute('aria-pressed',date===selectedDate?'true':'false');const num=document.createElement('span');num.textContent=n;b.append(num);const nTasks=tasks.filter(t=>t.date===date).length;if(nTasks){const dots=document.createElement('span');dots.className='dots';for(let j=0;j<Math.min(3,nTasks);j++){const dot=document.createElement('i');dots.append(dot)}b.append(dots)}b.addEventListener('click',()=>{selectedDate=date;$('calendarTaskDate').value=date;renderAll()});el.append(b)}if(full){$('fullSelectedLabel').textContent=dateFrom(selectedDate).toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});$('selectedTaskCount').textContent=`${tasksOn(selectedDate).length} ${tasksOn(selectedDate).length===1?'tarefa':'tarefas'}`;$('calendarTaskCount').textContent=`${tasks.filter(t=>t.date.startsWith(`${y}-${String(m+1).padStart(2,'0')}`)).length} compromissos`;renderList('fullDayTasks',tasksOn(selectedDate),'Nenhum compromisso neste dia. Use o formulário abaixo para planejar algo.')}}
+function renderAll(){renderTasks();renderDashboard();renderCalendar('miniCalendar','monthLabel',calendarMonth);renderCalendar('fullCalendar','fullMonthLabel',calendarMonth,true)}
+function addTask(data){const task={id:Date.now().toString()+Math.random().toString(16).slice(2,6),name:data.name.trim(),date:data.date,time:data.time,priority:data.priority||'green',repeat:data.repeat||'none',notes:data.notes||'',done:false,alerted:false};if(!task.name||!task.date||!task.time)return null;tasks.push(task);renderAll();persistTask(task);return task}
+$('taskForm').addEventListener('submit',e=>{e.preventDefault();addTask({name:$('taskName').value,date:$('taskDate').value,time:$('taskTime').value,priority:$('taskPriority').value,repeat:$('taskRepeat').value,notes:$('taskNotes').value.trim()});e.target.reset();$('taskDate').value=selectedDate});
+$('quickTaskForm').addEventListener('submit',e=>{e.preventDefault();const t=addTask({name:$('quickName').value,date:$('quickDate').value,time:$('quickTime').value,priority:$('quickPriority').value});if(t){e.target.reset();$('quickDate').value=selectedDate;showView('agenda')}});
+$('calendarTaskForm').addEventListener('submit',e=>{e.preventDefault();const t=addTask({name:$('calendarTaskName').value,date:$('calendarTaskDate').value,time:$('calendarTaskTime').value,priority:$('calendarTaskPriority').value,repeat:$('calendarTaskRepeat').value,notes:$('calendarTaskNotes').value.trim()});if(t){selectedDate=t.date;calendarMonth=new Date(dateFrom(selectedDate).getFullYear(),dateFrom(selectedDate).getMonth(),1);e.target.reset();$('calendarTaskDate').value=selectedDate;renderAll()}});
+function showView(id){document.querySelectorAll('nav button[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===id));document.querySelectorAll('.view').forEach(v=>v.hidden=v.id!==id);if(id==='calendario'){calendarMonth=new Date(dateFrom(selectedDate).getFullYear(),dateFrom(selectedDate).getMonth(),1);renderAll()}window.scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('nav button[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.goto)));
+['prevMonth','fullPrevMonth'].forEach(id=>$(id).addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1);renderAll()}));['nextMonth','fullNextMonth'].forEach(id=>$(id).addEventListener('click',()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1);renderAll()}));$('goToday').addEventListener('click',()=>{selectedDate=localDate(new Date());calendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);$('calendarTaskDate').value=selectedDate;renderAll()});
+$('cycleForm').addEventListener('submit',e=>{e.preventDefault();const start=$('periodStart').value,length=Number($('cycleLength').value);if(!start||length<15||length>60){$('cycleResult').textContent='Informe a data e uma duração entre 15 e 60 dias.';return}const next=dateFrom(start);next.setDate(next.getDate()+length);$('cycleResult').textContent='Próxima menstruação estimada: '+next.toLocaleDateString('pt-BR')+'. Essa é apenas uma estimativa; o ciclo pode variar.';localStorage.setItem(CYCLE_KEY,JSON.stringify({start,length}))});
+function useVoiceText(text){$('voiceText').value=text;const tm=text.match(/\b([01]?\d|2[0-3])(?:h|:)([0-5]\d)?\b/i);if(tm){$('taskTime').value=String(tm[1]).padStart(2,'0')+':'+(tm[2]||'00')}if(text.toLowerCase().includes('amanhã')){const d=new Date();d.setDate(d.getDate()+1);$('taskDate').value=localDate(d)}const name=text.replace(/^(eva[, ]*)?(adicionar tarefa|me lembre de|lembre-me de|lembrar de)\s*/i,'').replace(/\s*(hoje|amanhã)?\s*às?\s*\d{1,2}(?:h|:\d{2})?.*$/i,'').trim();if(name)$('taskName').value=name;showView('agenda')}
+$('useVoiceText').addEventListener('click',()=>useVoiceText($('voiceText').value));$('voiceBtn').addEventListener('click',()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){$('voiceResult').textContent='Seu navegador não oferece reconhecimento de voz. Use o campo de texto.';return}const rec=new SR();rec.lang='pt-BR';rec.interimResults=false;rec.maxAlternatives=1;$('voiceResult').textContent='Estou ouvindo…';rec.onresult=e=>{const said=e.results[0][0].transcript;$('voiceResult').textContent='Entendi: “'+said+'”. Confira os campos e salve.';useVoiceText(said)};rec.onerror=()=>$('voiceResult').textContent='Não consegui reconhecer a fala. Confira a permissão do microfone.';rec.start()});
+$('speakBtn').addEventListener('click',()=>{if(!('speechSynthesis'in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance($('readText').value);u.lang='pt-BR';speechSynthesis.speak(u)});$('stopSpeakBtn').addEventListener('click',()=>{if('speechSynthesis'in window)speechSynthesis.cancel()});
+function setNotificationStatus(m){$('notificationStatus').textContent=m}$('enableNotifications').addEventListener('click',async()=>{if(!('Notification'in window)){setNotificationStatus('Este navegador não oferece notificações do sistema.');return}if(!window.isSecureContext&&location.hostname!=='localhost'){setNotificationStatus('Notificações exigem HTTPS ou localhost.');return}try{const p=await Notification.requestPermission();setNotificationStatus(p==='granted'?'Notificações ativadas neste navegador.':'Permissão não concedida. Altere a permissão do site nas configurações.')}catch{setNotificationStatus('Não foi possível solicitar permissão neste navegador.')}});
+function fireAlarm(task){const msg=`E.V.A.: está na hora de ${task.name}.`;if('Notification'in window&&Notification.permission==='granted'){try{new Notification('Hora da sua tarefa',{body:msg,tag:'eva-'+task.id})}catch{}}if('speechSynthesis'in window){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(msg);u.lang='pt-BR';speechSynthesis.speak(u)}catch{}}setNotificationStatus(msg)}$('testAlarm').addEventListener('click',()=>fireAlarm({id:'teste',name:'este é um teste de alarme'}));
+function checkAlarms(){const now=new Date(),today=localDate(now),time=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;const due=tasks.filter(t=>!t.done&&!t.alerted&&t.date===today&&t.time<=time);for(const task of due){task.alerted=true;persistTask(task);fireAlarm(task);if(task.repeat==='daily'){const next=dateFrom(task.date);next.setDate(next.getDate()+1);addTask({name:task.name,date:localDate(next),time:task.time,priority:task.priority,repeat:'daily',notes:task.notes})}}if(due.length)renderAll()}if('serviceWorker'in navigator&&location.protocol!=='file:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));setInterval(checkAlarms,10000);
+function beginUserSession(user){currentUser=user;$('authGate').classList.add('hidden');$('appShell').classList.remove('hidden');$('userEmail').textContent=user.email||'Conta conectada';tasks=[];renderAll();if(stopTasksListener)stopTasksListener();stopTasksListener=onSnapshot(query(collection(db,'users',user.uid,'tasks'),orderBy('date')),snapshot=>{tasks=snapshot.docs.map(d=>({id:d.id,...d.data()}));renderAll()},err=>{console.error(err)});}
+if(!configReady){$('authGate').classList.remove('hidden');$('appShell').classList.add('hidden');showAuthMessage('Falta preencher a configuração do Firebase.',true)}else{onAuthStateChanged(auth,user=>{if(user)beginUserSession(user);else{if(stopTasksListener){stopTasksListener();stopTasksListener=null}currentUser=null;tasks=[];renderAll();$('appShell').classList.add('hidden');$('authGate').classList.remove('hidden');updateAuthMode('login')}})}renderAll();
 </script>
 </body>
 </html>
